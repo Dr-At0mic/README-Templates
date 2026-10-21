@@ -1,6 +1,8 @@
 import { Upload } from 'lucide-react';
 import AccountMenu from './AccountMenu';
 import UpdateButton from './UpdateButton';
+import WindowControls from './WindowControls';
+import { hasCustomFrame, startWindowDrag, toggleMaximizeWindow } from '../lib/appWindow';
 
 // lucide no longer ships brand marks, so the GitHub mark is inlined.
 function GithubMark({ size = 15 }) {
@@ -11,10 +13,19 @@ function GithubMark({ size = 15 }) {
   );
 }
 
+// In the desktop app the top bar is the title bar: press on empty space to move the window,
+// double-click to maximize or restore it.
+function onTitleBarMouseDown(event) {
+  if (!hasCustomFrame() || event.button !== 0) return;
+  if (event.target.closest('button, a, input, select, textarea, [role="menu"]')) return;
+  event.preventDefault();
+  (event.detail === 2 ? toggleMaximizeWindow : startWindowDrag)();
+}
+
 export default function TopBar({ connected, loading, accountMenu, onAddAccount, onPublish }) {
   const hasAccounts = accountMenu.accounts.length > 0;
   return (
-    <header className="topbar">
+    <header className={`topbar${hasCustomFrame() ? ' topbar-titlebar' : ''}`} onMouseDown={onTitleBarMouseDown}>
       <div className="brand">
         <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true">
           <path
@@ -46,6 +57,7 @@ export default function TopBar({ connected, loading, accountMenu, onAddAccount, 
         >
           <Upload size={15} aria-hidden="true" /> Publish
         </button>
+        <WindowControls />
       </div>
     </header>
   );

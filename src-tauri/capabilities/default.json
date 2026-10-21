@@ -1,12 +1,16 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
-  "description": "Opens links in the system browser, saves files to a path the user picks in the Save dialog (no other disk access), and installs signed app updates",
+  "description": "Opens links in the system browser, saves files to a path the user picks in the Save dialog (no other disk access), and installs signed app updates. The frameless window moves, minimizes, maximizes and closes from the app's own title bar",
   "windows": [
     "main"
   ],
   "permissions": [
     "core:default",
+    "core:window:allow-start-dragging",
+    "core:window:allow-minimize",
+    "core:window:allow-toggle-maximize",
+    "core:window:allow-close",
     "opener:default",
     "dialog:allow-save",
     "fs:allow-write-text-file",
