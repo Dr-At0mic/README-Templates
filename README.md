@@ -53,10 +53,21 @@ You don't hand your GitHub access to anyone. There's **no server, no sign-up and
 
 ## Templates
 
-> **There are 3 templates for now, and more are coming soon.** Thanks to the built-in updater, new ones show up in the desktop app automatically. Have an idea for a style? [Open an issue](https://github.com/Dr-At0mic/README-Templates/issues) or [build one yourself](CONTRIBUTING.md#add-a-new-template).
+> **There are 4 templates for now, and more are coming soon.** Thanks to the built-in updater, new ones show up in the desktop app automatically. Have an idea for a style? [Open an issue](https://github.com/Dr-At0mic/README-Templates/issues) or [build one yourself](CONTRIBUTING.md#add-a-new-template).
 
 <p align="center">
-  <img src="assets/public/templates-gallery.png" alt="The Templates page: Pulsar, Shōnen and Singularity cards with live previews, search, an Animated/Static filter and a Dark/Light toggle" width="100%">
+  <img src="assets/public/templates-gallery.png" alt="The Templates page: Pulsar, Shōnen, Singularity and Dollhouse cards with live previews, search, an Animated/Static filter and a Dark/Light toggle" width="100%">
+</p>
+
+### Dollhouse · animated, kawaii
+
+A pastel-pink doll's house where your profile lives.
+- **The room:** your name drops in as glossy bubble letters, a doll floats down on heart balloons, a cool cat gets heart-shaped shades, and a kitten bursts out of a gift box wearing the lid. The fairy lights are your year: one heart bulb per week, brighter for busier weeks.
+- **Dear diary:** your last year as a heart made of tiny hearts (one per day), your stats as die-cut stickers, and your top languages as nail-polish bottles.
+- **Yours alone:** the doll and the cats are drawn from your username. You can name the cat, and choose the letters on the bead bracelet that signs off the page.
+
+<p align="center">
+  <img src="assets/public/dollhouse.png" alt="The Dollhouse template: a pink doll's-house room with the name in glossy bubble letters, fairy lights, a doll holding heart balloons, a kitten in a gift box and a cat in heart-shaped sunglasses, above a diary page of stickers" width="100%">
 </p>
 
 ### Singularity · animated, cinematic sci-fi
