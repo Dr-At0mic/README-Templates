@@ -1,0 +1,70 @@
+# Builds the desktop app for Windows and Linux and publishes a GitHub release.
+# The release also carries latest.json + signatures, which the app's "Check for updates" button reads.
+#
+# Release:  bump "version" in package.json, commit, then  git tag v2.1.0 && git push origin v2.1.0
+#
+# Repository secrets (Settings → Secrets and variables → Actions):
+#   TAURI_SIGNING_PRIVATE_KEY           contents of the updater private key (never commit it)
+#   TAURI_SIGNING_PRIVATE_KEY_PASSWORD  its password
+#   VITE_VAULT_SECRET                   keep it the same across releases, or saved accounts stop decrypting
+
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: windows-latest
+          # 22.04 (glibc 2.35) so the Linux build also runs on Ubuntu 22.04 / Debian 12 and newer.
+          - platform: ubuntu-22.04
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Linux build dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev build-essential libxdo-dev libssl-dev \
+            libayatana-appindicator3-dev librsvg2-dev patchelf rpm
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri -> target
+
+      - run: npm ci
+
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          VITE_VAULT_SECRET: ${{ secrets.VITE_VAULT_SECRET }}
+        with:
+          tagName: v__VERSION__
+          releaseName: README Templates v__VERSION__
+          releaseBody: |
+            Download the installer for your system below, or use **Check for updates** in the app.
+            Windows: `*_x64-setup.exe` · Debian/Ubuntu: `*.deb` · Fedora/openSUSE: `*.rpm` · any distro: `*.AppImage`
+          releaseDraft: false
+          prerelease: false
+          # Signed updater artifacts + latest.json (local builds skip them and need no key).
+          args: --config src-tauri/tauri.release.conf.json

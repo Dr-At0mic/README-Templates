@@ -1,0 +1,38 @@
+# Dependencies & build output
+node_modules/
+dist/
+src-tauri/target/
+src-tauri/gen/schemas/
+
+# Environment (copy .env.example to .env)
+.env
+.env.local
+.env.*.local
+
+# Updater signing keys: never commit these (they live in ~/.tauri/ and in GitHub secrets)
+*.key
+*.key.password
+
+# AI agent / assistant files (local only)
+CLAUDE.md
+AGENTS.md
+docs/
+.claude/
+graphify-out/
+.cursor/
+.cursorrules
+.windsurf/
+.windsurfrules
+.codex/
+.gemini/
+GEMINI.md
+.github/copilot-instructions.md
+.aider*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.log
