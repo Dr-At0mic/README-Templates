@@ -30,7 +30,7 @@ jobs:
     runs-on: ${{ matrix.platform }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Linux build dependencies
         if: runner.os == 'Linux'
@@ -39,7 +39,7 @@ jobs:
           sudo apt-get install -y libwebkit2gtk-4.1-dev build-essential libxdo-dev libssl-dev \
             libayatana-appindicator3-dev librsvg2-dev patchelf rpm
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -61,9 +61,10 @@ jobs:
         with:
           tagName: v__VERSION__
           releaseName: README Templates v__VERSION__
+          # Plain text: the app shows these notes as-is in its update dialog.
           releaseBody: |
-            Download the installer for your system below, or use **Check for updates** in the app.
-            Windows: `*_x64-setup.exe` · Debian/Ubuntu: `*.deb` · Fedora/openSUSE: `*.rpm` · any distro: `*.AppImage`
+            Download the installer for your system below, or use Check for updates in the app.
+            Windows: *_x64-setup.exe · Debian/Ubuntu: *.deb · Fedora/openSUSE: *.rpm · any distro: *.AppImage
           releaseDraft: false
           prerelease: false
           # Signed updater artifacts + latest.json (local builds skip them and need no key).
