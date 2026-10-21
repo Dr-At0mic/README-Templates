@@ -53,10 +53,21 @@ You don't hand your GitHub access to anyone. There's **no server, no sign-up and
 
 ## Templates
 
-> **There are 4 templates for now, and more are coming soon.** Thanks to the built-in updater, new ones show up in the desktop app automatically. Have an idea for a style? [Open an issue](https://github.com/Dr-At0mic/README-Templates/issues) or [build one yourself](CONTRIBUTING.md#add-a-new-template).
+> **There are 5 templates for now, and more are coming soon.** Thanks to the built-in updater, new ones show up in the desktop app automatically. Have an idea for a style? [Open an issue](https://github.com/Dr-At0mic/README-Templates/issues) or [build one yourself](CONTRIBUTING.md#add-a-new-template).
 
 <p align="center">
-  <img src="assets/public/templates-gallery.png" alt="The Templates page: Pulsar, Shōnen, Singularity and Dollhouse cards with live previews, search, an Animated/Static filter and a Dark/Light toggle" width="100%">
+  <img src="assets/public/templates-gallery.png" alt="The Templates page: Pulsar, Shōnen, Singularity, Dollhouse and ADHD cards with live previews, search, an Animated/Static filter and a Dark/Light toggle" width="100%">
+</p>
+
+### ADHD · animated, cinematic
+
+A cinema camera's monitor feed, trying to focus on you.
+- **The opening shot:** autofocus hunts through a storm of interruptions (notifications, open tabs, a sticky note, a to-do list whose only finished item is "start a new side project"), then locks onto your name. The RGB split converges, an anamorphic flare fires, and everything else recedes. The out-of-focus lights behind it are your year, one per month.
+- **Signal:** a browser with far too many tabs open, your projects among the rabbit holes. Inside: your last 365 days as a seismograph with your hyperfocus episodes marked, a clock with only two times on it (now, and not now), odometer counters, and your languages as dopamine sources.
+- **The end card:** a film slate snaps shut. *Thanks for your attention. I know it's a limited resource.* You can write the loudest thought on the sticky note, and the closing lines.
+
+<p align="center">
+  <img src="assets/public/adhd.png" alt="The ADHD template: a camera monitor frame with REC and exposure readouts, the name locked in orange autofocus brackets with a red-cyan fringe and a lens flare, dimmed notifications, tabs and a sticky note around it, above a browser window showing a year of contributions as a seismograph" width="100%">
 </p>
 
 ### Dollhouse · animated, kawaii
