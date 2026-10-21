@@ -53,10 +53,21 @@ You don't hand your GitHub access to anyone. There's **no server, no sign-up and
 
 ## Templates
 
-> **There are 5 templates for now, and more are coming soon.** Thanks to the built-in updater, new ones show up in the desktop app automatically. Have an idea for a style? [Open an issue](https://github.com/Dr-At0mic/README-Templates/issues) or [build one yourself](CONTRIBUTING.md#add-a-new-template).
+> **There are 6 templates for now, and more are coming soon.** Thanks to the built-in updater, new ones show up in the desktop app automatically. Have an idea for a style? [Open an issue](https://github.com/Dr-At0mic/README-Templates/issues) or [build one yourself](CONTRIBUTING.md#add-a-new-template).
 
 <p align="center">
-  <img src="assets/public/templates-gallery.png" alt="The Templates page: Pulsar, Shōnen, Singularity, Dollhouse and ADHD cards with live previews, search, an Animated/Static filter and a Dark/Light toggle" width="100%">
+  <img src="assets/public/templates-gallery.png" alt="The Templates page: Pulsar, Shōnen, Singularity, Dollhouse, ADHD and Fathom cards with live previews, search, an Animated/Static filter and a Dark/Light toggle" width="100%">
+</p>
+
+### Fathom · animated, cinematic nature
+
+Your profile as a dive, one metre down for every contribution.
+- **The opening shot:** the camera leaves the sunlit surface and sinks onto a living reef. The reef is your year: one coral per week, as tall as that week was busy, with a glowing polyp for every active day. Your featured repos swim past as fish, sized by stars. Bioluminescent plankton swirls together to light up your name, and a depth gauge settles at your depth in the ocean's real zones, from sunlit down to hadal.
+- **Dive log:** your year drawn as one descent through those zones, with a bubble for every active day and the date you reached each new zone. Plus a logbook page with a dive-centre stamp, your languages as species spotted (with made-up Latin names), and your repos on sonar.
+- **The end card:** back at the surface, beside a diver-down buoy and a message in a bottle. *Thanks for diving in.* You can name your dive site and write the closing lines.
+
+<p align="center">
+  <img src="assets/public/fathom.png" alt="The Fathom template: a deep-blue underwater scene with light shafts, jellyfish and fish labelled with repository names, the name glowing in the centre, a depth gauge reading 1,740 metres in the midnight zone, and a reef of glowing corals along the bottom, above a dive log chart" width="100%">
 </p>
 
 ### ADHD · animated, cinematic

@@ -3,10 +3,11 @@
 // `animated` (shows the Replay control).
 import { adhd } from './adhd';
 import { dollhouse } from './dollhouse';
+import { fathom } from './fathom';
 import { pulsar } from './pulsar';
 import { shonen } from './shonen';
 import { singularity } from './singularity';
 
-export const TEMPLATES = [pulsar, shonen, singularity, dollhouse, adhd];
+export const TEMPLATES = [pulsar, shonen, singularity, dollhouse, adhd, fathom];
 export const DEFAULT_TEMPLATE = pulsar;
 export const findTemplate = (id) => TEMPLATES.find((t) => t.id === id) || DEFAULT_TEMPLATE;
