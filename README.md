@@ -1,17 +1,96 @@
 # README Templates
 
-Design a GitHub profile README, preview it exactly as GitHub renders it (light and dark), and publish it to your `username/username` repo in one click. Runs in the browser or as a desktop app for Windows and Linux. No backend, no account, no tracking.
+**Design a GitHub profile README that stands out, then publish it to your profile in one click.**
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-22c55e)](LICENSE)
 [![Latest release](https://img.shields.io/github/v/release/Dr-At0mic/README-Templates?label=download)](https://github.com/Dr-At0mic/README-Templates/releases/latest)
-![Platforms](https://img.shields.io/badge/platforms-Windows%20%7C%20Linux%20%7C%20Web-30363d)
+![Platforms](https://img.shields.io/badge/platforms-Windows%20%7C%20Linux-30363d)
 
-- **Original animated artwork:** generated as SVG from your own GitHub data (contribution calendar, languages, stars), not stock images or third-party widgets.
-- **Accurate preview:** dark and light themes, with the same `<picture>` switching GitHub uses.
-- **Publish safely:** shows exactly what will change, then commits the README and its artwork in a single commit.
-- **Private by design:** your token is only ever sent to `api.github.com`. It is stored encrypted, or not at all.
+<p align="center">
+  <img src="assets/public/singularity.png" alt="The README Templates studio: profile fields on the left, a live preview of the animated Singularity template on the right" width="100%">
+</p>
+
+A desktop app for Windows and Linux (or a web app you run yourself). Pick a template, and it draws original artwork from your real GitHub activity. Tweak the text, see exactly how GitHub will show it in dark and light mode, and publish straight to your profile.
+
+**[⬇ Download the latest release](https://github.com/Dr-At0mic/README-Templates/releases/latest)**
 
 ---
+
+## More than a template gallery
+
+Most README generators hand you a block of markdown, and the rest is your job: create the special `username/username` repo, upload the images, paste and commit. Then do it all again for every account. README Templates does the whole job.
+
+- **It publishes for you.** Connect your account and press **Publish**. The app creates or updates your profile repo with the README and all its artwork in a single commit, and tells you exactly what will change first. No copy-paste, no git.
+- **Multiple accounts, no juggling.** Got a personal account and a work account, or a few more? Add them all and switch with one click.
+  - Each account keeps its own key and its own edits.
+  - **Publish** always goes to the account you're on, so you never post to the wrong profile.
+  - No more signing out of GitHub, digging up tokens again, or redoing your edits.
+- **Artwork from your real data.** Contributions, active days, streaks, languages and stars become the art itself. No third-party stats widgets that rate-limit or disappear: every image is a plain SVG committed to your own repo.
+- **What you see is what GitHub shows.** The live preview renders the README the way GitHub does, in both dark and light themes.
+- **The app keeps itself up to date.** It checks for new versions at launch, so new templates and fixes arrive with one click: **Check for updates → Install and restart**.
+- **Try it without signing in.** With no account connected, it runs on built-in sample data and makes no network requests at all.
+
+## Your token stays with you
+
+You don't hand your GitHub access to anyone. There's **no server, no sign-up and no analytics**: the app runs entirely on your own computer.
+
+- **Direct to GitHub:** your token only ever goes from your machine to GitHub's own API (`api.github.com`), never to us or any third party. The desktop app is locked down to make sure of it: it can't contact any other address.
+- **Your choice of storage:** for each account, save it on this device (encrypted with AES-256-GCM, using a device key the app can't export), keep it for this session only, or remove it. **Clear all saved keys** wipes everything at once.
+- **Public data only:** the app reads only your public, non-fork repositories, so private repo names never end up in a public README.
+- **Open source:** every line is in this repo, so you can check it yourself.
+
+<details>
+<summary>Technical details: how tokens are stored</summary>
+
+- Tokens are encrypted with **AES-256-GCM**.
+- The key is derived (HKDF-SHA-256) from a random per-device key, which IndexedDB holds as a **non-extractable** WebCrypto key, together with `VITE_VAULT_SECRET`.
+- Each record is bound to its login, so records can't be swapped between accounts. Decrypted tokens only ever live in memory.
+- Copying the app's storage files alone yields nothing usable.
+- `VITE_VAULT_SECRET` is compiled into the app, so it isn't confidential. It works as a rotation lever: change it, and every saved token becomes unreadable.
+- As with any app that runs web code, this can't protect against malicious script injected into the app itself. The desktop app's strict content security policy is there to prevent that.
+
+</details>
+
+## Templates
+
+> **There are 3 templates for now, and more are coming soon.** Thanks to the built-in updater, new ones show up in the desktop app automatically. Have an idea for a style? [Open an issue](https://github.com/Dr-At0mic/README-Templates/issues) or [build one yourself](CONTRIBUTING.md#add-a-new-template).
+
+<p align="center">
+  <img src="assets/public/templates-gallery.png" alt="The Templates page: Pulsar, Shōnen and Singularity cards with live previews, search, an Animated/Static filter and a Dark/Light toggle" width="100%">
+</p>
+
+### Singularity · animated, cinematic sci-fi
+
+A mission briefing with a black hole at its centre.
+- **Hero:** the accretion disk is built from your contributions, one particle per day; busier days glow brighter and orbit closer.
+- **Mission telemetry:** your year as an orbit trajectory, with readouts for years on GitHub, contributions, active days, streak, stars and followers.
+- **Light theme:** printed as a photographic negative, the way astronomical sky surveys were.
+
+*(Screenshot at the top of this page.)*
+
+### Shōnen · animated, playful
+
+Your profile as an anime opening.
+- **Title card:** speed lines, an impact burst, and your name slamming in.
+- **RPG character sheet:** built from your real stats (STR = contributions, AGI = active days, END = streak, INT = languages, CHA = stars), plus a class taken from your top language and a gloriously meaningless power level.
+
+<p align="center">
+  <img src="assets/public/shonen.png" alt="The Shōnen template: a manga-style title card with the name in a yellow impact burst, and a character sheet with power level and stat bars" width="100%">
+</p>
+
+### Pulsar · static, minimal
+
+Your year as a ridgeline: twelve stacked lines, one per month, traced from your daily contributions, in the manner of the famous PSR B1919+21 pulsar plot. Your busiest month is drawn in amber, and your languages appear as geological strata.
+
+<p align="center">
+  <img src="assets/public/pulsar.png" alt="The Pulsar template: name and headline beside a ridgeline chart of twelve months of contributions, with a language strata chart below" width="100%">
+</p>
+
+**Every template:**
+- uses original artwork, generated for you;
+- ships dark and light versions that follow the viewer's GitHub theme;
+- has real alt text, and keeps your name, bio and projects as plain text for search engines and screen readers;
+- animates with pure CSS inside the SVG (no GIFs, no scripts), and respects *reduce motion* by showing the finished frame.
 
 ## Download
 
@@ -21,59 +100,30 @@ Grab the latest build from **[Releases](https://github.com/Dr-At0mic/README-Temp
 |---|---|---|
 | Windows 10 / 11 | `README.Templates_x.y.z_x64-setup.exe` | Run it. Installs for your user only, no admin needed. |
 | Windows (managed) | `README.Templates_x.y.z_x64_en-US.msi` | For company / Intune deployment |
-| Debian, Ubuntu, Mint | `README.Templates_x.y.z_amd64.deb` | `sudo apt install ./README.Templates_*_amd64.deb` |
+| Ubuntu, Debian, Mint | `README.Templates_x.y.z_amd64.deb` | `sudo apt install ./README.Templates_*_amd64.deb` |
 | Fedora, RHEL, openSUSE | `README.Templates-x.y.z-1.x86_64.rpm` | `sudo dnf install ./README.Templates-*.x86_64.rpm` |
 | Any Linux distro | `README.Templates_x.y.z_amd64.AppImage` | `chmod +x README.Templates_*.AppImage`, then run it |
 
 - **Windows SmartScreen:** the builds aren't code-signed yet, so Windows may say *"Windows protected your PC"*. Click **More info → Run anyway**.
-- **Linux requirements:** a 64-bit distro with glibc 2.35 or newer, such as Ubuntu 22.04+, Debian 12+, Fedora 36+ or Mint 21+. The `.deb` and `.rpm` add **README Templates** to your app menu and a `readme-templates` command.
+- **Linux requirements:** a 64-bit distro with glibc 2.35 or newer, such as Ubuntu 22.04+, Debian 12+, Fedora 36+ or Mint 21+. The `.deb` and `.rpm` add **README Templates** to your app menu and a `readme-templates` command. The AppImage may need FUSE: `sudo apt install libfuse2t64`, or `libfuse2` on Ubuntu 22.04.
 - **Linux blank or white window** (common in VMs): start the app with `WEBKIT_DISABLE_DMABUF_RENDERER=1 readme-templates`.
 
 ### Updates
 
-The desktop app has a **Check for updates** button in the top bar.
-- It checks GitHub Releases quietly at launch, and the button changes to **Update available** when there's a new version.
-- One click shows the release notes, downloads the update, checks it against the project's signing key, installs it and restarts the app.
+The **Check for updates** button sits in the top bar.
+- It checks quietly at launch, and changes to **Update available** when there's a new version.
+- One click shows what's new, downloads the update, verifies it against the project's signing key (so a tampered file is refused), installs it and restarts the app.
 - Your saved accounts and edits are kept.
 - On Linux, updating a `.deb` or `.rpm` install asks for your password. The AppImage updates itself in place.
 
-## Templates
-
-| Template | Style |
-|---|---|
-| **Singularity** | Animated sci-fi mission briefing: a black hole whose accretion disk is one particle per day of your contributions, HUD telemetry, and a "negative plate" light theme. |
-| **Shōnen** | Animated anime opening: a title card with speed lines and an impact burst, plus an RPG character sheet built from your real stats (and a power level). |
-| **Pulsar** | Static and minimal: a ridgeline plot of your year, one ridge per month, in the manner of the PSR B1919+21 pulsar plot. |
-
-All three templates follow the same rules:
-- The animation is pure CSS inside the SVG, so GitHub renders it with no scripts or GIFs.
-- With `prefers-reduced-motion`, it stops on the finished frame.
-- Every image ships in dark and light variants, with real alt text.
-- Your name, bio and projects also appear as plain text, for search engines and screen readers.
-
-Browse them all on the **Templates** page in the app, with live previews.
-
 ## How it works
 
-1. **Start with sample data,** or connect a GitHub token to draw the artwork from your real profile. The app makes one GraphQL query and reads only public, non-fork repos.
-2. **Edit** the fields; the preview updates as you type.
-3. **Publish:** the app checks `username/username`, tells you whether it will create the repo, add a README or replace one, then writes `README.md` plus the SVGs in one commit. You can also just copy the markdown or download the files.
+1. **Pick a template** on the Templates page. It starts on sample data, so you can explore freely.
+2. **Connect GitHub** (top right) with a personal access token, and the artwork redraws from your real profile in one query. Add more accounts the same way.
+3. **Edit** your headline, intro, links and template options; the preview updates as you type.
+4. **Publish.** The app checks your `username/username` repo and says whether it will create the repo, add a README or replace the existing one, then commits `README.md` and the artwork in one go. Prefer to do it by hand? **Copy** the markdown or download the files instead.
 
-**Token:** a classic token with `public_repo` + `read:user`, or a fine-grained token with *Contents* and *Administration* write access to your profile repo.
-
-**Multiple accounts:** add as many as you like and switch in one click. For each one you choose: *save on this device* (encrypted), *this session only*, or remove it.
-
-<details>
-<summary>How tokens are stored</summary>
-
-- Tokens are encrypted with **AES-256-GCM**.
-- The key is derived (HKDF-SHA-256) from a random per-device key, which IndexedDB holds as a **non-extractable** WebCrypto key, together with `VITE_VAULT_SECRET`.
-- Each record is bound to its login. Decrypted tokens only ever live in memory.
-- Copying `localStorage` alone yields nothing usable.
-- `VITE_VAULT_SECRET` is compiled into the bundle, so it isn't confidential. It works as a rotation lever: change it, and every saved token becomes unreadable.
-- As with any client-side app, this can't protect against script injected into the page itself.
-
-</details>
+**Token:** a classic token with `public_repo` + `read:user`, or a fine-grained token with *Contents* and *Administration* write access to your profile repo. The Connect dialog links straight to GitHub's token page.
 
 ## Run it from source
 
