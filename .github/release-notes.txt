@@ -1,0 +1,13 @@
+What's new in 1.1.0
+
+New template: Dollhouse
+- A pastel-pink doll's-house room drawn from your GitHub data. Your name drops in as glossy bubble letters, a doll floats down on heart balloons, and a cool cat gets its heart-shaped sunglasses.
+- A heart garland of 52 bulbs, one per week, lit by your weekly contributions.
+- A diary page: an instant photo develops into your year as a heart of tiny hearts, stickers for contributions, streak, followers and stars, and your top languages as nail-polish bottles.
+- A letter-bead bracelet sign-off with your own message.
+- Options: speech bubble, the cat's name and the sign-off. The doll and the cats' looks are picked from your username.
+- Animated, with dark and light versions, and it respects reduced motion.
+
+Desktop app
+- New title bar that matches the app. The white system bar is gone; the app's own top bar now moves the window (drag it, double-click to maximize or restore).
+- Minimize, maximize and close buttons in the app's dark style: Windows-style on Windows, GNOME-style round buttons on Linux.

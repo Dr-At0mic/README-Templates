@@ -1,7 +1,8 @@
 # Builds the desktop app for Windows and Linux and publishes a GitHub release.
 # The release also carries latest.json + signatures, which the app's "Check for updates" button reads.
 #
-# Release:  bump "version" in package.json, commit, then  git tag v2.1.0 && git push origin v2.1.0
+# Release:  bump "version" in package.json, write .github/release-notes.txt, commit,
+#           then  git tag v2.1.0 && git push origin v2.1.0
 #
 # Repository secrets (Settings → Secrets and variables → Actions):
 #   TAURI_SIGNING_PRIVATE_KEY           contents of the updater private key (never commit it)
@@ -52,6 +53,20 @@ jobs:
 
       - run: npm ci
 
+      # What's new in this version comes from .github/release-notes.txt; update it before tagging.
+      - name: Release notes
+        id: notes
+        shell: bash
+        run: |
+          {
+            echo 'body<<NOTES_EOF'
+            cat .github/release-notes.txt
+            echo
+            echo 'Download the installer for your system below, or use Check for updates in the app.'
+            echo 'Windows: *_x64-setup.exe · Debian/Ubuntu: *.deb · Fedora/openSUSE: *.rpm · any distro: *.AppImage'
+            echo 'NOTES_EOF'
+          } >> "$GITHUB_OUTPUT"
+
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -62,9 +77,7 @@ jobs:
           tagName: v__VERSION__
           releaseName: README Templates v__VERSION__
           # Plain text: the app shows these notes as-is in its update dialog.
-          releaseBody: |
-            Download the installer for your system below, or use Check for updates in the app.
-            Windows: *_x64-setup.exe · Debian/Ubuntu: *.deb · Fedora/openSUSE: *.rpm · any distro: *.AppImage
+          releaseBody: ${{ steps.notes.outputs.body }}
           releaseDraft: false
           prerelease: false
           # Signed updater artifacts + latest.json (local builds skip them and need no key).
