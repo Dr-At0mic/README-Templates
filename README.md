@@ -157,37 +157,9 @@ The workflow needs these repository secrets (**Settings → Secrets and variable
 
 ## Contributing
 
-Issues and pull requests are welcome. A good first contribution is a new template:
+Contributions are welcome: bug reports, ideas, fixes, docs, and especially new templates. Read **[CONTRIBUTING.md](CONTRIBUTING.md)** for setup, the project layout, how to add a template, the template rules, and the pull request checklist.
 
-```
-src/templates/<name>/index.js   exports { id, name, tagline, tags, hero(profile, theme), render(profile) }
-                                 render() returns { markdown, assets } (assets: { "path.svg": "<svg…>" })
-src/templates/index.js           register it here
-```
-
-- `fields` (optional): template-specific inputs, stored under `profile.templateData[id]`.
-- `animated: true` shows the preview's **Replay** button.
-
-Ground rules for templates:
-- **Original art** generated from the user's data. No copyrighted characters, names or quotes.
-- **Animation:** CSS keyframes only, at most two infinite loops, a `prefers-reduced-motion` fallback, and a resting state that is the final frame.
-- **Variants:** dark and light, via `<picture>`.
-- **Plain text:** identity and projects also appear as text.
-
-Before opening a PR, run `npm run build` and check both themes in the preview.
-
-```
-src/
-  App.jsx               state; sample-vs-live data rule
-  components/           TopBar, editor, preview, dialogs, template gallery, update button
-  lib/github.js         GraphQL profile fetch, repo inspection, single-commit publish
-  lib/vault.js          encrypted multi-account token storage
-  lib/updater.js        desktop update check / install
-  templates/            one folder per template
-  data/sampleProfile.js fictional sample profile
-src-tauri/              desktop shell: window, CSP, permissions, updater config
-scripts/build-linux.sh  Linux build (WSL or native)
-```
+Found a security problem? Please report it privately (see [Security issues](CONTRIBUTING.md#security-issues)) instead of opening a public issue.
 
 ## License
 
