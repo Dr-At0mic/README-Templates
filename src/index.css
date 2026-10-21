@@ -114,6 +114,96 @@ a {
   gap: 10px;
 }
 
+/* Desktop app: the top bar doubles as the window's title bar (see src/lib/appWindow.js). */
+.topbar-titlebar {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.topbar-titlebar .topbar-actions {
+  align-self: stretch;
+}
+
+.topbar-titlebar:has(.window-controls-windows) {
+  padding-right: 0;
+}
+
+.window-controls {
+  display: flex;
+  align-items: center;
+}
+
+.window-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-2);
+  cursor: default;
+  transition: background-color 120ms var(--ease), color 120ms var(--ease);
+}
+
+.window-button:hover {
+  color: var(--text);
+}
+
+.window-button:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: -2px;
+}
+
+/* Windows: flat 46px caption buttons flush with the top-right corner. */
+.window-controls-windows {
+  align-self: stretch;
+  margin-left: 6px;
+}
+
+.window-controls-windows .window-button {
+  width: 46px;
+  height: 100%;
+}
+
+.window-controls-windows .window-button:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.window-controls-windows .window-button:active {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.window-controls-windows .window-button-close:hover {
+  background: #c42b1c;
+  color: #fff;
+}
+
+.window-controls-windows .window-button-close:active {
+  background: #b22a1b;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Linux: GNOME-style round buttons. */
+.window-controls-linux {
+  gap: 10px;
+  margin-left: 8px;
+}
+
+.window-controls-linux .window-button {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.window-controls-linux .window-button:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.window-controls-linux .window-button:active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
 .account {
   display: flex;
   align-items: center;
