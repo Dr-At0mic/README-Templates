@@ -1,13 +1,9 @@
-What's new in 1.1.0
+What's new in 1.2.0
 
-New template: Dollhouse
-- A pastel-pink doll's-house room drawn from your GitHub data. Your name drops in as glossy bubble letters, a doll floats down on heart balloons, and a cool cat gets its heart-shaped sunglasses.
-- A heart garland of 52 bulbs, one per week, lit by your weekly contributions.
-- A diary page: an instant photo develops into your year as a heart of tiny hearts, stickers for contributions, streak, followers and stars, and your top languages as nail-polish bottles.
-- A letter-bead bracelet sign-off with your own message.
-- Options: speech bubble, the cat's name and the sign-off. The doll and the cats' looks are picked from your username.
+New template: ADHD
+- A cinematic opening shot, drawn from your GitHub data: a camera's autofocus hunts through a storm of notifications, open tabs, a sticky note and a to-do list, then locks onto your name. The colours snap together, a lens flare fires, and everything else fades into the background.
+- The soft lights behind your name are your year, one per month, brighter for busier months.
+- Signal: a browser with far too many tabs open, your projects among the rabbit holes. Inside, your last 365 days drawn as a seismograph with your biggest hyperfocus streaks marked, a clock with only two times on it (now, and not now), rolling counters for your stats, and your languages as "dopamine by source".
+- A film-slate sign-off: "Thanks for your attention. I know it's a limited resource."
+- Options: the thought on the sticky note, the closing line and the postscript.
 - Animated, with dark and light versions, and it respects reduced motion.
-
-Desktop app
-- New title bar that matches the app. The white system bar is gone; the app's own top bar now moves the window (drag it, double-click to maximize or restore).
-- Minimize, maximize and close buttons in the app's dark style: Windows-style on Windows, GNOME-style round buttons on Linux.
