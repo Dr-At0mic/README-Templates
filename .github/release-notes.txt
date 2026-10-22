@@ -1,9 +1,10 @@
-What's new in 1.3.0
+What's new in 1.4.0
 
-New template: Fathom
-- A cinematic dive, drawn from your GitHub data: the camera leaves the sunlit surface and sinks onto a living reef, glowing plankton swirls together into your name, and a depth gauge settles at your depth, one metre for every contribution, in the ocean's real zones (sunlit, twilight, midnight, abyssal, hadal).
-- The reef is your year: one coral per week, as tall as that week was busy, and a glowing polyp for every day you contributed. Your featured repos swim past as fish, sized by their stars.
-- Dive log: your year drawn as one descent through the zones, with a bubble for every active day and the date you reached each new zone. Plus a logbook page with a dive-centre stamp, your languages as "species spotted", and your repos on sonar.
-- A sign-off at the surface, beside a diver-down buoy and a message in a bottle: "Thanks for diving in."
-- Options: the name of your dive site, the closing line and the postscript.
-- Animated, with dark (a glowing night reef) and light (a sunlit reef) versions, and it respects reduced motion.
+New template: Breakdown
+- Dedicated to Vijay Pratap Pandey, VFX compositor (vijayvisuals.github.io).
+- Your year as a visual-effects shot breakdown, made for CG artists: a city with one tower for every day, laid out like your contribution calendar and receding week by week toward a setting sun.
+- The city extrudes in date order while the timeline plays frames 1001 to 1365, then the frame wipes through the render passes (wireframe, clay, normals, depth) to a dusk beauty pass with lit windows, street lamps and an anamorphic flare. Your name is lettering in the scene, so every pass renders it.
+- Comp script: your repos as a node graph, each with a material-preview thumbnail in its language colour, plus a render log of your year and your languages as a colour chart.
+- End card: the on-set reference kit (grey ball, chrome ball, colour chart) and a sign-off: "Thanks for watching."
+- Options: your discipline, a showreel link, your toolkit and the closing line.
+- Animated, with dark (dusk) and light (hazy morning) versions, and it respects reduced motion.
