@@ -896,6 +896,22 @@ input[type='checkbox'] {
   color: var(--text-2);
 }
 
+.gallery-body .gallery-dedication {
+  font-size: 12px;
+  font-style: italic;
+}
+
+.gallery-dedication a {
+  color: var(--text-3);
+  text-decoration: none;
+}
+
+.gallery-dedication a:hover,
+.gallery-dedication a:focus-visible {
+  color: var(--text-2);
+  text-decoration: underline;
+}
+
 .gallery-foot {
   display: flex;
   flex-wrap: wrap;
