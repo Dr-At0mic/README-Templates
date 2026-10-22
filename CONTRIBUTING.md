@@ -87,6 +87,7 @@ A template is a folder in `src/templates/` that turns a profile into a README pl
 | `render(profile)` | yes | Returns `{ markdown, assets }`. `assets` maps file paths to SVG strings, e.g. `{ 'assets/hero-dark.svg': '<svg…>' }` |
 | `fields` | no | Extra inputs for this template; values are stored in `profile.templateData[id]` |
 | `animated` | no | `true` shows the preview's **Replay** button |
+| `dedication` | no | `{ text, url }`, a small linked credit line on the template's gallery card |
 
 Look at `src/templates/pulsar/` (static) and `src/templates/singularity/` (animated) for complete examples. Keeping the SVG generators in a separate `art.js` keeps `index.js` readable.
 

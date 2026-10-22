@@ -53,10 +53,23 @@ You don't hand your GitHub access to anyone. There's **no server, no sign-up and
 
 ## Templates
 
-> **There are 6 templates for now, and more are coming soon.** Thanks to the built-in updater, new ones show up in the desktop app automatically. Have an idea for a style? [Open an issue](https://github.com/Dr-At0mic/README-Templates/issues) or [build one yourself](CONTRIBUTING.md#add-a-new-template).
+> **There are 7 templates for now, and more are coming soon.** Thanks to the built-in updater, new ones show up in the desktop app automatically. Have an idea for a style? [Open an issue](https://github.com/Dr-At0mic/README-Templates/issues) or [build one yourself](CONTRIBUTING.md#add-a-new-template).
 
 <p align="center">
-  <img src="assets/public/templates-gallery.png" alt="The Templates page: Pulsar, Shōnen, Singularity, Dollhouse, ADHD and Fathom cards with live previews, search, an Animated/Static filter and a Dark/Light toggle" width="100%">
+  <img src="assets/public/templates-gallery.png" alt="The Templates page: Pulsar, Shōnen, Singularity, Dollhouse, ADHD, Fathom and Breakdown cards with live previews, search, an Animated/Static filter and a Dark/Light toggle" width="100%">
+</p>
+
+### Breakdown · animated, cinematic VFX
+
+*For [Vijay Pratap Pandey](https://vijayvisuals.github.io/), VFX compositor, who helped build this project.*
+
+Your year as a visual-effects shot, presented the way CG artists show their work: as a breakdown.
+- **The opening shot:** a city with one tower for every day of the last year, laid out like the contribution calendar and receding week by week toward a setting sun. It extrudes in date order while the timeline plays frames 1001 to 1365, one frame per day. Then the frame wipes through the render passes (wireframe, clay, normals, depth) to a backlit beauty pass at dusk, with lit windows, street lamps, blinking beacons on your busiest days and an anamorphic flare across the horizon. Your name is lettering in the scene, so every pass renders it too.
+- **Comp script:** your work as a node graph. The year is the background plate, and your featured repos are Read nodes merged over it, each with a material-preview thumbnail in its language colour (one of them is a teapot). Then come a grade, a write and a viewer. Below it: a render log of the year's numbers, and your languages as a colour chart.
+- **The end card:** the on-set lighting reference kit, with a grey ball, a chrome ball reflecting the shot's sunset and a colour chart. *Thanks for watching.* You can add your discipline, a showreel link, your toolkit (Nuke, Houdini, Blender…) and the closing line.
+
+<p align="center">
+  <img src="assets/public/breakdown.png" alt="The Breakdown template: a dusk city of dark towers with lit windows receding toward a setting sun under an anamorphic flare, the name in serif capitals in the sky, inside a compositing viewer with render-pass tabs and a timeline of daily contributions, above a node graph with shader-ball thumbnails" width="100%">
 </p>
 
 ### Fathom · animated, cinematic nature

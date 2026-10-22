@@ -35,6 +35,13 @@ function TemplateCard({ template, profile, theme, active, onUse }) {
           )}
         </div>
         <p>{template.tagline}</p>
+        {template.dedication && (
+          <p className="gallery-dedication">
+            <a href={template.dedication.url} target="_blank" rel="noreferrer">
+              {template.dedication.text}
+            </a>
+          </p>
+        )}
         <div className="gallery-foot">
           <ul className="tag-list" aria-label="Tags">
             {template.tags?.map((tag) => (
