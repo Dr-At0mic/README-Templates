@@ -1,9 +1,9 @@
-What's new in 1.2.0
+What's new in 1.3.0
 
-New template: ADHD
-- A cinematic opening shot, drawn from your GitHub data: a camera's autofocus hunts through a storm of notifications, open tabs, a sticky note and a to-do list, then locks onto your name. The colours snap together, a lens flare fires, and everything else fades into the background.
-- The soft lights behind your name are your year, one per month, brighter for busier months.
-- Signal: a browser with far too many tabs open, your projects among the rabbit holes. Inside, your last 365 days drawn as a seismograph with your biggest hyperfocus streaks marked, a clock with only two times on it (now, and not now), rolling counters for your stats, and your languages as "dopamine by source".
-- A film-slate sign-off: "Thanks for your attention. I know it's a limited resource."
-- Options: the thought on the sticky note, the closing line and the postscript.
-- Animated, with dark and light versions, and it respects reduced motion.
+New template: Fathom
+- A cinematic dive, drawn from your GitHub data: the camera leaves the sunlit surface and sinks onto a living reef, glowing plankton swirls together into your name, and a depth gauge settles at your depth, one metre for every contribution, in the ocean's real zones (sunlit, twilight, midnight, abyssal, hadal).
+- The reef is your year: one coral per week, as tall as that week was busy, and a glowing polyp for every day you contributed. Your featured repos swim past as fish, sized by their stars.
+- Dive log: your year drawn as one descent through the zones, with a bubble for every active day and the date you reached each new zone. Plus a logbook page with a dive-centre stamp, your languages as "species spotted", and your repos on sonar.
+- A sign-off at the surface, beside a diver-down buoy and a message in a bottle: "Thanks for diving in."
+- Options: the name of your dive site, the closing line and the postscript.
+- Animated, with dark (a glowing night reef) and light (a sunlit reef) versions, and it respects reduced motion.
