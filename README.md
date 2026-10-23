@@ -53,10 +53,21 @@ You don't hand your GitHub access to anyone. There's **no server, no sign-up and
 
 ## Templates
 
-> **There are 7 templates for now, and more are coming soon.** Thanks to the built-in updater, new ones show up in the desktop app automatically. Have an idea for a style? [Open an issue](https://github.com/Dr-At0mic/README-Templates/issues) or [build one yourself](CONTRIBUTING.md#add-a-new-template).
+> **There are 8 templates for now, and more are coming soon.** Thanks to the built-in updater, new ones show up in the desktop app automatically. Have an idea for a style? [Open an issue](https://github.com/Dr-At0mic/README-Templates/issues) or [build one yourself](CONTRIBUTING.md#add-a-new-template).
 
 <p align="center">
-  <img src="assets/public/templates-gallery.png" alt="The Templates page: Pulsar, Shōnen, Singularity, Dollhouse, ADHD, Fathom and Breakdown cards with live previews, search, an Animated/Static filter and a Dark/Light toggle" width="100%">
+  <img src="assets/public/templates-gallery.png" alt="The Templates page: Pulsar, Shōnen, Singularity, Dollhouse, ADHD, Fathom, Breakdown and Pacman cards with live previews, search, an Animated/Static filter and a Dark/Light toggle" width="100%">
+</p>
+
+### Pacman · animated, retro arcade
+
+Your year as an arcade maze, with a demo game playing on it.
+- **The attract screen:** the maze is your contribution calendar, one column per week and one row per weekday, with a pellet for every day (bigger on busier days) and your busiest days as the power pellets. The walls are generated from your username and mirrored like a real arcade board, and your name lights up in the same neon tubing. After *READY!*, the chomper eats its way to a power pellet, powers up and hunts down the ghosts, which are your featured repos. Each one pops its stars before floating home to the pen. The HUD keeps score: contributions, best day, streak, and your level (years on GitHub).
+- **Scoreboard:** meet the ghosts, one per project, then your numbers as an arcade high-score table, ranked, and your languages as bonus items.
+- **The end card:** an intermission chase, then the chomper writes out your sign-off. *Thanks for playing!* You can set your player class and the closing line.
+
+<p align="center">
+  <img src="assets/public/pacman.png" alt="The Pacman template: the name in neon tube lettering over a blue arcade maze made from a year of contributions, with pellets for days, a yellow chomper, ghosts in the pen and an arcade HUD, above a scoreboard of ghosts named after repositories and a high-score table" width="100%">
 </p>
 
 ### Breakdown · animated, cinematic VFX
