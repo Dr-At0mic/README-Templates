@@ -1,6 +1,6 @@
 [package]
 name = "readme-templates"
-version = "1.4.0"
+version = "1.5.0"
 description = "Desktop build of the README Templates studio"
 license = "MIT"
 repository = "https://github.com/Dr-At0mic/README-Templates"

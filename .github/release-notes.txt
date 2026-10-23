@@ -1,10 +1,10 @@
-What's new in 1.4.0
+What's new in 1.5.0
 
-New template: Breakdown
-- Dedicated to Vijay Pratap Pandey, VFX compositor (vijayvisuals.github.io).
-- Your year as a visual-effects shot breakdown, made for CG artists: a city with one tower for every day, laid out like your contribution calendar and receding week by week toward a setting sun.
-- The city extrudes in date order while the timeline plays frames 1001 to 1365, then the frame wipes through the render passes (wireframe, clay, normals, depth) to a dusk beauty pass with lit windows, street lamps and an anamorphic flare. Your name is lettering in the scene, so every pass renders it.
-- Comp script: your repos as a node graph, each with a material-preview thumbnail in its language colour, plus a render log of your year and your languages as a colour chart.
-- End card: the on-set reference kit (grey ball, chrome ball, colour chart) and a sign-off: "Thanks for watching."
-- Options: your discipline, a showreel link, your toolkit and the closing line.
-- Animated, with dark (dusk) and light (hazy morning) versions, and it respects reduced motion.
+New template: Pacman
+- Your year as an arcade maze: your contribution calendar becomes the board, with a pellet for every day (bigger on busier days) and your busiest days as the power pellets.
+- The walls are generated from your username and mirrored like a real arcade board, with a wrap-around tunnel, and your name lights up in the same neon tubing (accents included).
+- After READY!, a demo game plays: the chomper eats its way to a power pellet, powers up and hunts down the ghosts, which are your featured repos. Each one pops its stars and floats home to the pen. The HUD keeps score: contributions, best day, streak and your level.
+- Scoreboard: meet the ghosts, one per project, then your numbers as a ranked high-score table and your languages as bonus items.
+- End card: an intermission chase, then the chomper writes out your sign-off: "Thanks for playing!"
+- Options: your player class and the closing line.
+- Animated, with dark (arcade screen) and light (printed) versions, and it respects reduced motion.

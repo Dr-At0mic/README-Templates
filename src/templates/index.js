@@ -5,10 +5,11 @@ import { adhd } from './adhd';
 import { breakdown } from './breakdown';
 import { dollhouse } from './dollhouse';
 import { fathom } from './fathom';
+import { pacman } from './pacman';
 import { pulsar } from './pulsar';
 import { shonen } from './shonen';
 import { singularity } from './singularity';
 
-export const TEMPLATES = [pulsar, shonen, singularity, dollhouse, adhd, fathom, breakdown];
+export const TEMPLATES = [pulsar, shonen, singularity, dollhouse, adhd, fathom, breakdown, pacman];
 export const DEFAULT_TEMPLATE = pulsar;
 export const findTemplate = (id) => TEMPLATES.find((t) => t.id === id) || DEFAULT_TEMPLATE;
