@@ -72,9 +72,6 @@ Your year as an arcade maze, with a demo game playing on it.
 
 ### Breakdown · animated, cinematic VFX
 
-*For [Vijay Pratap Pandey](https://vijayvisuals.github.io/), VFX compositor, who helped build this project.*
-
-Your year as a visual-effects shot, presented the way CG artists show their work: as a breakdown.
 - **The opening shot:** a city with one tower for every day of the last year, laid out like the contribution calendar and receding week by week toward a setting sun. It extrudes in date order while the timeline plays frames 1001 to 1365, one frame per day. Then the frame wipes through the render passes (wireframe, clay, normals, depth) to a backlit beauty pass at dusk, with lit windows, street lamps, blinking beacons on your busiest days and an anamorphic flare across the horizon. Your name is lettering in the scene, so every pass renders it too.
 - **Comp script:** your work as a node graph. The year is the background plate, and your featured repos are Read nodes merged over it, each with a material-preview thumbnail in its language colour (one of them is a teapot). Then come a grade, a write and a viewer. Below it: a render log of the year's numbers, and your languages as a colour chart.
 - **The end card:** the on-set lighting reference kit, with a grey ball, a chrome ball reflecting the shot's sunset and a colour chart. *Thanks for watching.* You can add your discipline, a showreel link, your toolkit (Nuke, Houdini, Blender…) and the closing line.
