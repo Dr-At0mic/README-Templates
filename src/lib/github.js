@@ -1,3 +1,6 @@
+import { linksFromGitHub } from './links';
+import { normalizeSponsorships } from './sponsors';
+
 // Minimal GitHub client. Only called when the user has supplied a token —
 // without one the app never touches the network for profile data.
 
@@ -87,8 +90,6 @@ export async function fetchProfile(token) {
     .flatMap((w) => w.contributionDays)
     .map((d) => ({ date: d.date, count: d.contributionCount }));
 
-  const social = (provider) => v.socialAccounts.nodes.find((s) => s.provider === provider)?.url || '';
-
   return {
     source: 'github',
     login: v.login,
@@ -99,8 +100,7 @@ export async function fetchProfile(token) {
     location: v.location || '',
     website: v.websiteUrl || '',
     email: v.email || '',
-    twitter: v.twitterUsername || '',
-    linkedin: social('LINKEDIN'),
+    links: linksFromGitHub(v.twitterUsername, v.socialAccounts.nodes),
     avatarUrl: v.avatarUrl,
     joinedYear: new Date(v.createdAt).getFullYear(),
     followers: v.followers.totalCount,
@@ -127,6 +127,58 @@ function toShares(bytes) {
 // ---------------------------------------------------------------------------
 // Publishing
 // ---------------------------------------------------------------------------
+
+const SPONSORS_QUERY = `
+query ($after: String) {
+  viewer {
+    hasSponsorsListing
+    sponsorsListing { dashboardUrl activeGoal { title percentComplete } }
+    sponsorshipsAsMaintainer(first: 100, after: $after, activeOnly: true, includePrivate: false) {
+      pageInfo { hasNextPage endCursor }
+      nodes {
+        isOneTimePayment
+        privacyLevel
+        tier { monthlyPriceInDollars }
+        sponsorEntity {
+          __typename
+          ... on User { login name url avatarUrl(size: 128) }
+          ... on Organization { login name url avatarUrl(size: 128) }
+        }
+      }
+    }
+  }
+}`;
+
+const MAX_SPONSOR_PAGES = 5;
+
+/**
+ * The token owner's public sponsors. Separate from fetchProfile, and never throws, because a key without
+ * access to sponsor data must not stop the rest of the profile from loading.
+ */
+export async function fetchSponsorData(token) {
+  try {
+    const nodes = [];
+    let viewer;
+    let after = null;
+    for (let page = 0; page < MAX_SPONSOR_PAGES; page++) {
+      const res = await request(token, '/graphql', { method: 'POST', body: { query: SPONSORS_QUERY, variables: { after } } });
+      viewer = res?.data?.viewer;
+      const connection = viewer?.sponsorshipsAsMaintainer;
+      if (!connection) return { unavailable: true };
+      nodes.push(...connection.nodes);
+      if (!connection.pageInfo.hasNextPage) break;
+      after = connection.pageInfo.endCursor;
+    }
+    return {
+      hasListing: Boolean(viewer.hasSponsorsListing),
+      dashboardUrl: viewer.sponsorsListing?.dashboardUrl ?? null,
+      goal: viewer.sponsorsListing?.activeGoal ?? null,
+      sponsors: normalizeSponsorships(nodes),
+    };
+  } catch {
+    return { unavailable: true };
+  }
+}
 
 /** Inspect <login>/<login> without changing anything, so the user can confirm. */
 export async function inspectProfileRepo(token, login) {

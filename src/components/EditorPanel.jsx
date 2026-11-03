@@ -1,4 +1,8 @@
 import { Info, LayoutGrid } from 'lucide-react';
+import LinksEditor from './LinksEditor';
+import PresetBar from './PresetBar';
+import SponsorOptions from './SponsorOptions';
+import { resolveEmail, resolveWebsite } from '../lib/links';
 
 const MAX_FEATURED = 4;
 
@@ -12,7 +16,7 @@ function Field({ id, label, help, children }) {
   );
 }
 
-export default function EditorPanel({ id, hidden, template, onBrowseTemplates, profile, onChange, connected, onConnect }) {
+export default function EditorPanel({ id, hidden, template, onBrowseTemplates, profile, readmeProfile, onChange, connected, onConnect, form, onFormChange }) {
   const set = (key) => (e) => onChange({ [key]: e.target.value });
   const templateValues = profile.templateData?.[template.id] || {};
   const setTemplateField = (key) => (e) =>
@@ -41,7 +45,29 @@ export default function EditorPanel({ id, hidden, template, onBrowseTemplates, p
             <LayoutGrid size={14} aria-hidden="true" /> Browse
           </button>
         </div>
+        <div className="segmented form-switch" role="tablist" aria-label="What this template makes">
+          {[
+            ['profile', 'Profile README'],
+            ['sponsors', 'Sponsors page'],
+          ].map(([value, label]) => (
+            <button key={value} type="button" role="tab" aria-selected={form === value} onClick={() => onFormChange(value)}>
+              {label}
+            </button>
+          ))}
+        </div>
+        {form === 'sponsors' && (
+          <p className="field-help form-hint">
+            Upload the artwork once, then copy and paste the text into{' '}
+            <a href={profile.sponsorData?.dashboardUrl || 'https://github.com/sponsors/accounts'} target="_blank" rel="noreferrer">
+              your Sponsors dashboard
+            </a>
+            . GitHub has no way to publish this for you. This page keeps its own data, and your README isn't changed.
+          </p>
+        )}
       </section>
+
+      {/* Remounted per form, because each form has its own saved presets. */}
+      <PresetBar key={form} scope={form} profile={profile} onChange={onChange} copySource={form === 'sponsors' ? readmeProfile : undefined} />
 
       {!connected && (
         <div className="notice">
@@ -78,7 +104,7 @@ export default function EditorPanel({ id, hidden, template, onBrowseTemplates, p
                 id={`tf-${f.key}`}
                 value={templateValues[f.key] || ''}
                 onChange={setTemplateField(f.key)}
-                placeholder={f.placeholder?.(profile)}
+                placeholder={(form === 'sponsors' && template.sponsorPage?.defaults?.[f.key]) || f.placeholder?.(profile)}
                 maxLength={f.maxLength}
               />
             </Field>
@@ -98,20 +124,33 @@ export default function EditorPanel({ id, hidden, template, onBrowseTemplates, p
 
       <section className="editor-section">
         <h2 className="section-title">Links</h2>
-        <Field id="website" label="Website">
+        <Field
+          id="website"
+          label="Website"
+          help={profile.website.trim() && !resolveWebsite(profile.website) ? "This isn't a valid link, so it's left out of the README." : undefined}
+        >
           <input id="website" type="url" value={profile.website} onChange={set('website')} placeholder="https://" />
         </Field>
-        <Field id="email" label="Email">
+        <Field
+          id="email"
+          label="Email"
+          help={profile.email.trim() && !resolveEmail(profile.email) ? "This isn't a valid address, so it's left out of the README." : undefined}
+        >
           <input id="email" type="email" value={profile.email} onChange={set('email')} />
         </Field>
-        <div className="field-row">
-          <Field id="twitter" label="X handle">
-            <input id="twitter" value={profile.twitter} onChange={set('twitter')} placeholder="handle" />
-          </Field>
-          <Field id="linkedin" label="LinkedIn URL">
-            <input id="linkedin" type="url" value={profile.linkedin} onChange={set('linkedin')} placeholder="https://" />
-          </Field>
-        </div>
+        <LinksEditor group="social" addLabel="Add social link" profile={profile} onChange={onChange} />
+      </section>
+
+      <section className="editor-section">
+        <LinksEditor
+          group="support"
+          title="Support"
+          hint="Let people back your work: GitHub Sponsors, Buy Me a Coffee, Ko-fi, Patreon and more."
+          addLabel="Add support link"
+          profile={profile}
+          onChange={onChange}
+        />
+        <SponsorOptions profile={profile} form={form} onChange={onChange} />
       </section>
 
       <section className="editor-section">

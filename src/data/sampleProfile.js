@@ -40,8 +40,21 @@ export const SAMPLE_PROFILE = {
   location: 'Lisbon, PT',
   website: 'https://example.com',
   email: 'alex@example.com',
-  twitter: '',
-  linkedin: '',
+  links: [],
+  // Fictional, like everything here; links go to example.com so none of them can point at a real person.
+  sponsorData: {
+    hasListing: true,
+    dashboardUrl: null,
+    goal: { title: 'Fund a day a week on tidewater', percentComplete: 64 },
+    sponsors: [
+      { login: 'northwind-labs', name: 'Northwind Labs', url: 'https://example.com', avatarUrl: '', oneTime: false, monthly: 500 },
+      { login: 'mara-oyelaran', name: 'Mara Oyelaran', url: 'https://example.com', avatarUrl: '', oneTime: false, monthly: 25 },
+      { login: 'tomas-reyes', name: 'Tomas Reyes', url: 'https://example.com', avatarUrl: '', oneTime: false, monthly: 25 },
+      { login: 'ines-kowalski', name: 'Ines Kowalski', url: 'https://example.com', avatarUrl: '', oneTime: false, monthly: 5 },
+      { login: 'dev-patel', name: 'Dev Patel', url: 'https://example.com', avatarUrl: '', oneTime: true, monthly: 0 },
+      { login: 'yuki-tanaka', name: 'Yuki Tanaka', url: 'https://example.com', avatarUrl: '', oneTime: true, monthly: 0 },
+    ],
+  },
   avatarUrl: '',
   joinedYear: 2014,
   followers: 1830,

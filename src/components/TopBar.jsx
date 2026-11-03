@@ -1,4 +1,6 @@
-import { Upload } from 'lucide-react';
+import { useState } from 'react';
+import { Check, Copy, ImageUp, Upload } from 'lucide-react';
+import AboutDialog from './AboutDialog';
 import AccountMenu from './AccountMenu';
 import UpdateButton from './UpdateButton';
 import WindowControls from './WindowControls';
@@ -22,8 +24,18 @@ function onTitleBarMouseDown(event) {
   (event.detail === 2 ? toggleMaximizeWindow : startWindowDrag)();
 }
 
-export default function TopBar({ connected, loading, accountMenu, onAddAccount, onPublish }) {
+export default function TopBar({ connected, loading, accountMenu, onAddAccount, onPublish, form, copyText }) {
   const hasAccounts = accountMenu.accounts.length > 0;
+  const [copied, setCopied] = useState(false);
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(copyText);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      /* clipboard blocked; the Markdown tab is still selectable */
+    }
+  };
   return (
     <header className={`topbar${hasCustomFrame() ? ' topbar-titlebar' : ''}`} onMouseDown={onTitleBarMouseDown}>
       <div className="brand">
@@ -41,6 +53,7 @@ export default function TopBar({ connected, loading, accountMenu, onAddAccount, 
       </div>
 
       <div className="topbar-actions">
+        <AboutDialog />
         <UpdateButton />
         <AccountMenu {...accountMenu} loading={loading} />
         {!hasAccounts && (
@@ -48,15 +61,39 @@ export default function TopBar({ connected, loading, accountMenu, onAddAccount, 
             <GithubMark /> Connect GitHub
           </button>
         )}
-        <button
-          type="button"
-          className="button button-primary"
-          onClick={onPublish}
-          disabled={!connected || loading}
-          title={connected ? 'Commit README and artwork to your profile repo' : 'Connect a GitHub account to publish'}
-        >
-          <Upload size={15} aria-hidden="true" /> Publish
-        </button>
+        {form === 'sponsors' ? (
+          <>
+            <button
+              type="button"
+              className="button"
+              onClick={onPublish}
+              disabled={!connected || loading}
+              title={connected ? 'Commit only the images to your profile repo. Your README is not changed' : 'Connect a GitHub account to upload artwork'}
+            >
+              <ImageUp size={15} aria-hidden="true" /> Upload artwork
+            </button>
+            <button
+              type="button"
+              className="button button-primary"
+              onClick={copy}
+              disabled={!connected || loading}
+              title={connected ? 'Copy the text for your Sponsors dashboard' : 'Connect a GitHub account first: sample data has no images online to link to'}
+            >
+              {copied ? <Check size={15} aria-hidden="true" /> : <Copy size={15} aria-hidden="true" />}
+              {copied ? 'Copied' : 'Copy for Sponsors'}
+            </button>
+          </>
+        ) : (
+          <button
+            type="button"
+            className="button button-primary"
+            onClick={onPublish}
+            disabled={!connected || loading}
+            title={connected ? 'Commit README and artwork to your profile repo' : 'Connect a GitHub account to publish'}
+          >
+            <Upload size={15} aria-hidden="true" /> Publish
+          </button>
+        )}
         <WindowControls />
       </div>
     </header>

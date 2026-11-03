@@ -14,6 +14,8 @@ A desktop app for Windows and Linux (or a web app you run yourself). Pick a temp
 
 **[⬇ Download the latest release](https://github.com/Dr-At0mic/README-Templates/releases/latest)**
 
+<a href="https://apps.microsoft.com/detail/9PKHWBM0FP7P"><img src="https://get.microsoft.com/images/en-us%20dark.svg" alt="Get it from Microsoft Store" width="200"></a>
+
 ---
 
 ## More than a template gallery
@@ -28,7 +30,11 @@ Most README generators hand you a block of markdown, and the rest is your job: c
 - **Artwork from your real data.** Contributions, active days, streaks, languages and stars become the art itself. No third-party stats widgets that rate-limit or disappear: every image is a plain SVG committed to your own repo.
 - **What you see is what GitHub shows.** The live preview renders the README the way GitHub does, in both dark and light themes.
 - **The app keeps itself up to date.** It checks for new versions at launch, so new templates and fixes arrive with one click: **Check for updates → Install and restart**.
-- **Try it without signing in.** With no account connected, it runs on built-in sample data and makes no network requests at all.
+- **Try it without signing in.** With no account connected, it runs on built-in sample data, and nothing about you goes anywhere.
+- **Save your details once.** Keep your name, links and options as **data presets**, switch between them, and pick a default that loads when the app opens.
+- **Real badges for your links.** Add any of 54 social and support platforms, including Instagram, YouTube, LinkedIn, GitHub Sponsors, Buy Me a Coffee, Ko-fi and Patreon. Each becomes a clickable brand badge, and links you already list on GitHub fill in when you connect.
+- **Thank your sponsors.** An optional sponsor wall groups your public sponsors into top, monthly and one-time, and shows your goal. It never shows private sponsors or amounts.
+- **A themed GitHub Sponsors page too.** Every template has a second form for your Sponsors profile, with its own data and presets. GitHub can't publish that page for you, so upload the artwork, then copy and paste the text into your dashboard.
 
 ## Your token stays with you
 
@@ -38,6 +44,8 @@ You don't hand your GitHub access to anyone. There's **no server, no sign-up and
 - **Your choice of storage:** for each account, save it on this device (encrypted with AES-256-GCM, using a device key the app can't export), keep it for this session only, or remove it. **Clear all saved keys** wipes everything at once.
 - **Public data only:** the app reads only your public, non-fork repositories, so private repo names never end up in a public README.
 - **Open source:** every line is in this repo, so you can check it yourself.
+
+Read the full **[privacy policy](https://dr-at0mic.github.io/readme-templates/privacy/)**.
 
 <details>
 <summary>Technical details: how tokens are stored</summary>
@@ -148,7 +156,7 @@ Your year as a ridgeline: twelve stacked lines, one per month, traced from your 
 
 ## Download
 
-Grab the latest build from **[Releases](https://github.com/Dr-At0mic/README-Templates/releases/latest)**:
+On Windows, the easiest way is the **[Microsoft Store](https://apps.microsoft.com/detail/9PKHWBM0FP7P)**. Or grab the latest build from **[Releases](https://github.com/Dr-At0mic/README-Templates/releases/latest)**:
 
 | System | File | Install |
 |---|---|---|
@@ -169,6 +177,7 @@ The **Check for updates** button sits in the top bar.
 - One click shows what's new, downloads the update, verifies it against the project's signing key (so a tampered file is refused), installs it and restarts the app.
 - Your saved accounts and edits are kept.
 - On Linux, updating a `.deb` or `.rpm` install asks for your password. The AppImage updates itself in place.
+- The Microsoft Store version has no such button, because the Store keeps it up to date.
 
 ## How it works
 
@@ -243,7 +252,8 @@ A local Linux build only runs on distros with the same glibc as the machine that
 Releases are built by GitHub Actions ([.github/workflows/release.yml](.github/workflows/release.yml)). The workflow builds the Windows and Linux packages, signs the update files, and publishes a GitHub release with the `latest.json` the update button reads.
 
 ```bash
-# 1. bump "version" in package.json (the desktop app reads it from there)
+# 1. bump "version" in package.json (the desktop app reads it from there) and in src-tauri/Cargo.toml,
+#    and update .github/release-notes.txt
 # 2. commit, then tag and push:
 git tag v2.1.0
 git push origin v2.1.0
@@ -258,6 +268,30 @@ The workflow needs these repository secrets (**Settings → Secrets and variable
 | `VITE_VAULT_SECRET` | Any random string. Keep it the same across releases, or saved accounts stop decrypting after an update. |
 
 **Publishing your own builds from a fork?** Generate your own key pair with `npx tauri signer generate -w ~/.tauri/readme-templates.key`. Then, in [src-tauri/tauri.conf.json](src-tauri/tauri.conf.json), replace `plugins.updater.pubkey` with your public key, and point `endpoints` at your repo's releases. Otherwise your builds will look for updates from this repo. Never commit the private key; `*.key` is gitignored.
+
+## Microsoft Store build
+
+```powershell
+npm run desktop:build:store
+```
+
+This writes an `.msix` to `src-tauri/target/msix/` for uploading in Partner Center. It needs Windows, the Windows SDK and `VITE_VAULT_SECRET`. The version comes from `package.json`: `1.5.0` becomes `1.5.0.0`. The file is unsigned on purpose, because the Store signs it, and the release workflow attaches a copy to each release.
+
+## About the developer
+
+README Templates is built by **Anandhu Suresh**, a full-stack software engineer.
+
+- Website: [dr-at0mic.github.io](https://dr-at0mic.github.io/)
+- GitHub: [@Dr-At0mic](https://github.com/Dr-At0mic)
+
+## Support this project
+
+The app is free and open source. If it helped your profile, you can back the work:
+
+<p>
+  <a href="https://github.com/sponsors/Dr-At0mic"><img src="assets/public/badge-github-sponsors.svg" alt="GitHub Sponsors" height="28"></a>
+  <a href="https://buymeacoffee.com/anandhu.suresh"><img src="assets/public/badge-buy-me-a-coffee.svg" alt="Buy Me a Coffee" height="28"></a>
+</p>
 
 ## Contributing
 

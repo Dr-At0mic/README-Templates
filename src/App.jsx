@@ -6,8 +6,10 @@ import PreviewPanel from './components/PreviewPanel';
 import ConnectDialog from './components/ConnectDialog';
 import PublishDialog from './components/PublishDialog';
 import { TEMPLATES, findTemplate } from './templates';
+import { renderSponsorsPage } from './lib/sponsors';
 import { SAMPLE_PROFILE } from './data/sampleProfile';
-import { fetchProfile } from './lib/github';
+import { fetchProfile, fetchSponsorData } from './lib/github';
+import { profileForForm, startProfile } from './lib/presets';
 import { loadPref, savePref } from './lib/storage';
 import {
   VaultError,
@@ -44,6 +46,14 @@ export default function App() {
     else window.location.hash = '';
   }, []);
 
+  // Every template comes in two forms: the profile README, or the Introduction for a GitHub Sponsors page.
+  const [form, setFormState] = useState(() => (loadPref('form', 'profile') === 'sponsors' ? 'sponsors' : 'profile'));
+  const setForm = (next) => {
+    setFormState(next);
+    savePref('form', next);
+    setPublishOpen(false);
+  };
+
   const chooseTemplate = (id) => {
     setTemplateId(id);
     savePref('template', id);
@@ -55,7 +65,8 @@ export default function App() {
   const tokens = useRef(new Map());
   const drafts = useRef(new Map());
   const memoryOnly = useRef(new Map()); // accounts that couldn't be encrypted to storage
-  const sampleDraft = useRef(SAMPLE_PROFILE);
+  const [initialProfile] = useState(() => startProfile(SAMPLE_PROFILE));
+  const sampleDraft = useRef(initialProfile);
   const requestSeq = useRef(0);
 
   const readAccounts = () => {
@@ -72,7 +83,7 @@ export default function App() {
 
   const [activeLogin, setActiveLogin] = useState(null);
   // Data rule: static sample data when no account is active, live GitHub data when one is.
-  const [profile, setProfile] = useState(SAMPLE_PROFILE);
+  const [profile, setProfile] = useState(initialProfile);
   const [loading, setLoading] = useState(false);
   const [connectOpen, setConnectOpen] = useState(false);
   const [connectBusy, setConnectBusy] = useState(false);
@@ -88,6 +99,14 @@ export default function App() {
     setPublishOpen(false);
     setLoading(false);
     setProfile(sampleDraft.current);
+  }, []);
+
+  // Loads after the profile and on its own, so slow or unavailable sponsor data never holds it up.
+  const loadSponsors = useCallback(async (token, key) => {
+    const sponsorData = await fetchSponsorData(token);
+    const draft = drafts.current.get(key);
+    if (draft) drafts.current.set(key, { ...draft, sponsorData });
+    setProfile((p) => (p.source === 'github' && keyOf(p.login) === key ? { ...p, sponsorData } : p));
   }, []);
 
   const activate = useCallback(
@@ -112,8 +131,10 @@ export default function App() {
         const live = await fetchProfile(token);
         if (seq !== requestSeq.current) return; // user switched again meanwhile
         if (keyOf(live.login) !== key) throw new Error(`The saved key for @${login} now belongs to @${live.login}. Re-add it.`);
-        drafts.current.set(key, live);
-        setProfile(live);
+        const fresh = startProfile(live);
+        drafts.current.set(key, fresh);
+        setProfile(fresh);
+        loadSponsors(token, key);
       } catch (err) {
         if (seq !== requestSeq.current) return;
         if (err instanceof VaultError || err.status === 401) {
@@ -131,7 +152,7 @@ export default function App() {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [signOut]
+    [signOut, loadSponsors]
   );
 
   // Restore the last active account (if its key is still saved).
@@ -150,7 +171,8 @@ export default function App() {
       const key = keyOf(live.login);
       const meta = { login: live.login, name: live.name, avatarUrl: live.avatarUrl };
       tokens.current.set(key, token);
-      drafts.current.set(key, live);
+      drafts.current.set(key, startProfile(live));
+      loadSponsors(token, key);
 
       if (vaultAvailable) {
         try {
@@ -212,7 +234,8 @@ export default function App() {
 
   const updateProfile = (patch) =>
     setProfile((p) => {
-      const next = { ...p, ...patch };
+      // Edits go to the form being edited. The other form's data isn't touched.
+      const next = form === 'sponsors' ? { ...p, sponsorPage: { ...p.sponsorPage, ...patch } } : { ...p, ...patch };
       if (next.source === 'github') drafts.current.set(keyOf(next.login), next);
       else sampleDraft.current = next;
       return next;
@@ -241,7 +264,11 @@ export default function App() {
     Boolean(activeLogin) && !loading && profile.source === 'github' && keyOf(profile.login) === keyOf(activeLogin);
   const activeToken = activeLogin ? tokens.current.get(keyOf(activeLogin)) : null;
 
-  const output = useMemo(() => template.render(profile), [template, profile]);
+  const formProfile = useMemo(() => profileForForm(profile, form), [profile, form]);
+  const output = useMemo(
+    () => (form === 'sponsors' ? renderSponsorsPage(template, formProfile) : template.render(formProfile)),
+    [form, template, formProfile]
+  );
   const openConnect = () => {
     setConnectError('');
     setConnectOpen(true);
@@ -254,6 +281,8 @@ export default function App() {
         loading={loading}
         onAddAccount={openConnect}
         onPublish={() => setPublishOpen(true)}
+        form={form}
+        copyText={output.markdown}
         accountMenu={{
           accounts,
           activeLogin,
@@ -292,15 +321,20 @@ export default function App() {
           hidden={!sidebarOpen}
           template={template}
           onBrowseTemplates={openGallery}
-          profile={profile}
+          profile={formProfile}
+          readmeProfile={profile}
           onChange={updateProfile}
           connected={connected}
           onConnect={openConnect}
+          form={form}
+          onFormChange={setForm}
         />
         <PreviewPanel
           output={output}
           login={profile.login}
           animated={Boolean(template.animated)}
+          form={form}
+          canCopy={form === 'profile' || connected}
           sidebarOpen={sidebarOpen}
           onToggleSidebar={toggleSidebar}
         />
@@ -325,6 +359,7 @@ export default function App() {
           login={profile.login}
           output={output}
           templateName={template.name}
+          artworkOnly={form === 'sponsors'}
         />
       )}
     </div>

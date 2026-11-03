@@ -3,6 +3,8 @@
 // one coherent style, self-hosted images with dark/light variants and alt text, a clear contact path.
 
 import { headerSvg, strataSvg } from './art';
+import { renderLinks } from '../../lib/links';
+import { renderSponsorWall } from '../../lib/sponsors';
 
 const ASSETS = {
   headerDark: 'assets/pulsar-header-dark.svg',
@@ -27,23 +29,14 @@ function formatStars(n) {
   return n >= 1000 ? `${(n / 1000).toFixed(n >= 10000 ? 0 : 1)}k` : String(n);
 }
 
-function contactLinks(p) {
-  const twitter = p.twitter?.replace(/^@/, '');
-  return [
-    p.website && `[${p.website.replace(/^https?:\/\//, '').replace(/\/$/, '')}](${p.website})`,
-    p.email && `[${p.email}](mailto:${p.email})`,
-    twitter && `[X @${twitter}](https://x.com/${twitter})`,
-    p.linkedin && `[LinkedIn](${p.linkedin})`,
-  ].filter(Boolean);
-}
-
 export function render(p) {
   const name = p.name || p.login;
   const months = 12;
   const total = (p.contributions?.total || 0).toLocaleString('en-US');
   const featured = p.featured.map((n) => p.repos.find((r) => r.name === n)).filter(Boolean);
   const languages = (p.languages || []).slice(0, 5);
-  const links = contactLinks(p);
+  const contact = renderLinks(p, { align: 'left' });
+  const wall = renderSponsorWall(p, { align: 'left' });
 
   const out = [];
   out.push(
@@ -59,7 +52,7 @@ export function render(p) {
   out.push(p.headline ? `**${name}** — ${p.headline}` : `**${name}**`, '');
   if (p.intro) out.push(p.intro, '');
   if (p.now) out.push(`**Now** — ${p.now}`, '');
-  if (links.length) out.push(links.join(' &nbsp;·&nbsp; '), '');
+  if (contact.html) out.push(contact.html, '');
 
   if (featured.length) {
     out.push('#### Selected work', '');
@@ -83,6 +76,8 @@ export function render(p) {
     );
   }
 
+  if (wall.html) out.push(wall.html, '');
+
   out.push(
     '<details>',
     '<summary><sub>Colophon</sub></summary>',
@@ -94,6 +89,8 @@ export function render(p) {
 
   const markdown = out.join('\n') + '\n';
   const assets = {
+    ...contact.assets,
+    ...wall.assets,
     [ASSETS.headerDark]: headerSvg(p, 'dark'),
     [ASSETS.headerLight]: headerSvg(p, 'light'),
   };
@@ -110,5 +107,20 @@ export const pulsar = {
   tagline: 'Your year as a ridgeline — one line per month, traced from real contributions.',
   tags: ['Static', 'Minimal', 'Data art'],
   hero: (p, theme) => headerSvg(p, theme),
+  sponsorPage: {
+    align: 'left',
+    pitchLabel: 'Why sponsor this work.',
+    nowLabel: 'Now',
+    heroAlt: (p, name) => `${name}. Ridgeline of ${(p.contributions?.total || 0).toLocaleString('en-US')} contributions over the last 12 months, one ridge per month.`,
+    panel: {
+      title: 'Where the work goes',
+      show: (p) => (p.languages || []).length > 0,
+      art: (p) => strataSvg(p, 'dark'),
+      alt: (p) => `Language mix drawn as strata: ${(p.languages || []).slice(0, 5).map((l) => `${l.name} ${Math.round(l.share * 100)}%`).join(', ')}.`,
+    },
+    fundsTitle: 'What your sponsorship supports',
+    wall: { heading: 'Thanks to my sponsors', top: 'Top sponsors', regular: 'Sponsors', oneTime: 'One-time supporters' },
+    outro: 'Every ridge above is a month of real work. Sponsorship keeps the signal going.',
+  },
   render,
 };

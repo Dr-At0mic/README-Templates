@@ -1,6 +1,7 @@
 // Template registry. Each entry exposes render(profile) → { markdown, assets }, `tags` and
 // `hero(profile, theme)` for the gallery, plus optional `fields` (template-specific inputs),
-// `animated` (shows the Replay control) and `dedication` ({ text, url }, shown on its gallery card).
+// `animated` (shows the Replay control), `dedication` ({ text, url }, shown on its gallery card) and
+// `sponsorPage`, the template's themed GitHub Sponsors page (see renderSponsorsPage).
 import { adhd } from './adhd';
 import { breakdown } from './breakdown';
 import { dollhouse } from './dollhouse';

@@ -6,6 +6,8 @@
 // Dedicated to Vijay Pratap Pandey, VFX compositor (https://vijayvisuals.github.io/).
 
 import { breakdownNumbers, FIRST_FRAME, heroSvg, scriptSvg, wrapSvg } from './art';
+import { renderLinks, showreelLink } from '../../lib/links';
+import { renderSponsorWall } from '../../lib/sponsors';
 
 const ASSETS = {
   heroDark: 'assets/breakdown-hero-dark.svg',
@@ -32,18 +34,6 @@ function picture(dark, light, alt) {
   ].join('\n');
 }
 
-function links(p, reel) {
-  const twitter = p.twitter?.replace(/^@/, '');
-  const items = [
-    reel && `<a href="${html(reel)}">▶ Showreel</a>`,
-    p.website && `<a href="${html(p.website)}">${html(p.website.replace(/^https?:\/\//, '').replace(/\/$/, ''))}</a>`,
-    p.email && `<a href="mailto:${html(p.email)}">${html(p.email)}</a>`,
-    twitter && `<a href="https://x.com/${html(twitter)}">X @${html(twitter)}</a>`,
-    p.linkedin && `<a href="${html(p.linkedin)}">LinkedIn</a>`,
-  ].filter(Boolean);
-  return items.length ? `<p align="center">${items.join(' &nbsp;·&nbsp; ')}</p>` : '';
-}
-
 const defaultToolkit = (p) => (p.languages || []).slice(0, 4).map((l) => l.name).join(' · ');
 
 function options(p) {
@@ -59,6 +49,8 @@ function options(p) {
 
 export function render(p) {
   const opts = options(p);
+  const contact = renderLinks(p, { lead: opts.reel ? [showreelLink(opts.reel)] : [] });
+  const wall = renderSponsorWall(p);
   const name = p.name || p.login;
   const n = breakdownNumbers(p);
   const featured = p.featured.map((r) => p.repos.find((x) => x.name === r)).filter(Boolean);
@@ -76,7 +68,7 @@ export function render(p) {
     ),
     '',
     `<p align="center"><b>${html(name)}</b>${opts.role ? ` · ${html(opts.role)}` : ''}${p.headline ? ` · ${html(p.headline)}` : ''}</p>`,
-    links(p, opts.reel),
+    contact.html,
     '',
   ];
 
@@ -127,6 +119,8 @@ export function render(p) {
 
   if (opts.toolkit) out.push(`**Toolkit:** ${opts.toolkit}`, '');
 
+  if (wall.html) out.push(wall.html, '');
+
   out.push(
     picture(
       ASSETS.endDark,
@@ -138,6 +132,8 @@ export function render(p) {
   return {
     markdown: out.join('\n') + '\n',
     assets: {
+      ...contact.assets,
+      ...wall.assets,
       [ASSETS.heroDark]: heroSvg(p, 'dark', opts),
       [ASSETS.heroLight]: heroSvg(p, 'light', opts),
       [ASSETS.scriptDark]: scriptSvg(p, 'dark', opts),
@@ -187,5 +183,26 @@ export const breakdown = {
       placeholder: () => DEFAULT_SIGNOFF,
     },
   ],
+  sponsorPage: {
+    defaults: { signoff: 'Thanks for backing the shot.' },
+    pitchLabel: 'The pitch.',
+    nowLabel: 'In production:',
+    role: (p) => options(p).role,
+    leadLinks: (p) => (options(p).reel ? [showreelLink(options(p).reel)] : []),
+    heroAlt: (p, name) => `${name}. A visual-effects shot breakdown: a city with one tower for every day of the last year, wiped from wireframe through to a final beauty pass.`,
+    panel: {
+      title: 'The production so far',
+      art: (p) => scriptSvg(p, 'dark', options(p)),
+      alt: (p) => {
+        const n = breakdownNumbers(p);
+        return `Comp script: the last year as the background plate, with featured repositories merged over it. ${n.total.toLocaleString('en-US')} contributions on ${n.active.toLocaleString('en-US')} active days.`;
+      },
+    },
+    fundsTitle: 'Shots you keep in production',
+    notes: (p) => (options(p).toolkit ? [`**Toolkit:** ${options(p).toolkit}`] : []),
+    wall: { heading: 'Credits', top: 'Executive producers', regular: 'Producers', oneTime: 'Special thanks' },
+    outro: 'Every shot has a credit roll. Yours goes here.',
+    end: { art: (p) => wrapSvg(p, 'dark', options(p)), alt: (p) => `End card: an on-set lighting reference kit with a grey ball, a chrome ball and a colour chart. ${options(p).signoff}` },
+  },
   render,
 };

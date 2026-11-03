@@ -4,6 +4,8 @@
 // and fully described; everything a recruiter or screen reader needs is real text.
 
 import { adhdNumbers, defaultThought, heroSvg, signalSvg, slateSvg } from './art';
+import { renderLinks } from '../../lib/links';
+import { renderSponsorWall } from '../../lib/sponsors';
 
 const ASSETS = {
   heroDark: 'assets/adhd-hero-dark.svg',
@@ -30,17 +32,6 @@ function picture(dark, light, alt) {
   ].join('\n');
 }
 
-function links(p) {
-  const twitter = p.twitter?.replace(/^@/, '');
-  const items = [
-    p.website && `<a href="${html(p.website)}">${html(p.website.replace(/^https?:\/\//, '').replace(/\/$/, ''))}</a>`,
-    p.email && `<a href="mailto:${html(p.email)}">${html(p.email)}</a>`,
-    twitter && `<a href="https://x.com/${html(twitter)}">X @${html(twitter)}</a>`,
-    p.linkedin && `<a href="${html(p.linkedin)}">LinkedIn</a>`,
-  ].filter(Boolean);
-  return items.length ? `<p align="center">${items.join(' &nbsp;·&nbsp; ')}</p>` : '';
-}
-
 function options(p) {
   const o = p.templateData?.adhd || {};
   return {
@@ -51,6 +42,8 @@ function options(p) {
 }
 
 export function render(p) {
+  const contact = renderLinks(p);
+  const wall = renderSponsorWall(p);
   const opts = options(p);
   const name = p.name || p.login;
   const n = adhdNumbers(p);
@@ -67,7 +60,7 @@ export function render(p) {
     ),
     '',
     `<p align="center"><b>${html(name)}</b>${p.headline ? ` · ${html(p.headline)}` : ''}</p>`,
-    links(p),
+    contact.html,
     '',
   ];
 
@@ -116,11 +109,15 @@ export function render(p) {
     out.push('');
   }
 
+  if (wall.html) out.push(wall.html, '');
+
   out.push(picture(ASSETS.endDark, ASSETS.endLight, `A film slate snaps shut: that's a wrap. ${opts.signoff} ${opts.postscript}`));
 
   return {
     markdown: out.join('\n') + '\n',
     assets: {
+      ...contact.assets,
+      ...wall.assets,
       [ASSETS.heroDark]: heroSvg(p, 'dark', opts),
       [ASSETS.heroLight]: heroSvg(p, 'light', opts),
       [ASSETS.signalDark]: signalSvg(p, 'dark'),
@@ -161,5 +158,28 @@ export const adhd = {
       placeholder: () => DEFAULT_POSTSCRIPT,
     },
   ],
+  sponsorPage: {
+    defaults: {
+      thought: 'who is funding all these tabs?',
+      signoff: 'You keep me in focus.',
+      postscript: 'Thanks for backing the next hyperfocus.',
+    },
+    pitchLabel: 'Why this needs backing.',
+    nowLabel: 'Currently hyperfocused on:',
+    heroAlt: (p, name) => `${name}. Cinematic title card: a camera's autofocus hunts through notifications and open tabs and locks on. A sticky note reads “${options(p).thought}”`,
+    panel: {
+      title: 'The signal you’d be backing',
+      art: (p) => signalSvg(p, 'dark'),
+      alt: (p) => {
+        const n = adhdNumbers(p);
+        return `The last 365 days as a seismograph: ${n.total.toLocaleString('en-US')} contributions on ${n.active.toLocaleString('en-US')} active days, longest streak ${n.streak} days.`;
+      },
+    },
+    fundsTitle: 'Open tabs you keep open',
+    repoPrefix: (i) => `\`TAB ${String(i + 1).padStart(2, '0')}\` `,
+    wall: { heading: 'The focus crew', top: 'Focus pullers', regular: 'Camera crew', oneTime: 'Extras' },
+    outro: 'Attention goes where interest is. Sponsorship keeps it there.',
+    end: { art: (p) => slateSvg(p, 'dark', options(p)), alt: (p) => `A film slate snaps shut. ${options(p).signoff} ${options(p).postscript}` },
+  },
   render,
 };

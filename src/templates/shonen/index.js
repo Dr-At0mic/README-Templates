@@ -3,6 +3,8 @@
 // The flash lives in the images; everything a recruiter or screen reader needs is real text.
 
 import { characterSheetSvg, titleCardSvg, toBeContinuedSvg } from './art';
+import { renderLinks } from '../../lib/links';
+import { renderSponsorWall } from '../../lib/sponsors';
 import { POWER_FORMULA, computeStats, defaultClass } from './stats';
 
 const ASSETS = {
@@ -31,18 +33,9 @@ function formatStars(n) {
   return n >= 1000 ? `${(n / 1000).toFixed(n >= 10000 ? 0 : 1)}k` : String(n);
 }
 
-function links(p) {
-  const twitter = p.twitter?.replace(/^@/, '');
-  const items = [
-    p.website && `<a href="${html(p.website)}">${html(p.website.replace(/^https?:\/\//, '').replace(/\/$/, ''))}</a>`,
-    p.email && `<a href="mailto:${html(p.email)}">${html(p.email)}</a>`,
-    twitter && `<a href="https://x.com/${html(twitter)}">X @${html(twitter)}</a>`,
-    p.linkedin && `<a href="${html(p.linkedin)}">LinkedIn</a>`,
-  ].filter(Boolean);
-  return items.length ? `<p align="center">${items.join(' &nbsp;·&nbsp; ')}</p>` : '';
-}
-
 export function render(p) {
+  const contact = renderLinks(p);
+  const wall = renderSponsorWall(p);
   const opts = p.templateData?.shonen || {};
   const catchphrase = opts.catchphrase?.trim() || p.headline || 'A new challenger approaches!';
   const heroClass = opts.heroClass?.trim() || defaultClass(p);
@@ -55,7 +48,7 @@ export function render(p) {
     picture(ASSETS.titleDark, ASSETS.titleLight, `Anime title card: ${name}. Speech bubble: “${catchphrase}”`),
     '',
     `<p align="center"><b>${html(name)}</b>${p.headline ? ` — ${html(p.headline)}` : ''}</p>`,
-    links(p),
+    contact.html,
     ''
   );
 
@@ -96,10 +89,14 @@ export function render(p) {
     out.push('');
   }
 
+  if (wall.html) out.push(wall.html, '');
+
   out.push(picture(ASSETS.endDark, ASSETS.endLight, 'To be continued…'));
 
   const markdown = out.filter((line, i, arr) => !(line === '' && arr[i - 1] === '')).join('\n') + '\n';
   const assets = {
+    ...contact.assets,
+    ...wall.assets,
     [ASSETS.titleDark]: titleCardSvg(p, 'dark', { catchphrase }),
     [ASSETS.titleLight]: titleCardSvg(p, 'light', { catchphrase }),
     [ASSETS.sheetDark]: characterSheetSvg(p, 'dark', { heroClass }),
@@ -136,5 +133,24 @@ export const shonen = {
       placeholder: (p) => defaultClass(p),
     },
   ],
+  sponsorPage: {
+    defaults: { catchphrase: 'Join my party!' },
+    pitchLabel: 'The quest.',
+    nowLabel: 'Next episode:',
+    heroAlt: (p, name) => `Anime title card: ${name}. Speech bubble: “${p.templateData?.shonen?.catchphrase}”`,
+    panel: {
+      title: 'Your new ally’s character sheet',
+      art: (p) => characterSheetSvg(p, 'dark', { heroClass: p.templateData?.shonen?.heroClass?.trim() || defaultClass(p) }),
+      alt: (p) => {
+        const { stats, rank, power } = computeStats(p);
+        return `Character sheet. Rank ${rank}. Power level ${power.toLocaleString('en-US')}. ${stats.map((s) => `${s.label}: ${s.value.toLocaleString('en-US')}`).join('; ')}.`;
+      },
+    },
+    fundsTitle: 'Story arcs you keep going',
+    repoPrefix: (i) => `Arc ${i + 1} · `,
+    wall: { heading: 'The party', top: 'Legendary allies', regular: 'Party members', oneTime: 'Wandering heroes' },
+    outro: 'Every hero needs a party. The next episode could have you in it.',
+    end: { art: (p) => toBeContinuedSvg(p, 'dark'), alt: () => 'To be continued…' },
+  },
   render,
 };

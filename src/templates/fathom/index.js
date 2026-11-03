@@ -4,6 +4,8 @@
 // described; everything a recruiter or screen reader needs is real text.
 
 import { defaultSite, fathomNumbers, heroSvg, logSvg, surfaceSvg } from './art';
+import { renderLinks } from '../../lib/links';
+import { renderSponsorWall } from '../../lib/sponsors';
 
 const ASSETS = {
   heroDark: 'assets/fathom-hero-dark.svg',
@@ -30,17 +32,6 @@ function picture(dark, light, alt) {
   ].join('\n');
 }
 
-function links(p) {
-  const twitter = p.twitter?.replace(/^@/, '');
-  const items = [
-    p.website && `<a href="${html(p.website)}">${html(p.website.replace(/^https?:\/\//, '').replace(/\/$/, ''))}</a>`,
-    p.email && `<a href="mailto:${html(p.email)}">${html(p.email)}</a>`,
-    twitter && `<a href="https://x.com/${html(twitter)}">X @${html(twitter)}</a>`,
-    p.linkedin && `<a href="${html(p.linkedin)}">LinkedIn</a>`,
-  ].filter(Boolean);
-  return items.length ? `<p align="center">${items.join(' &nbsp;·&nbsp; ')}</p>` : '';
-}
-
 function options(p) {
   const o = p.templateData?.fathom || {};
   return {
@@ -51,6 +42,8 @@ function options(p) {
 }
 
 export function render(p) {
+  const contact = renderLinks(p);
+  const wall = renderSponsorWall(p);
   const opts = options(p);
   const name = p.name || p.login;
   const n = fathomNumbers(p);
@@ -70,7 +63,7 @@ export function render(p) {
     ),
     '',
     `<p align="center"><b>${html(name)}</b>${p.headline ? ` · ${html(p.headline)}` : ''}</p>`,
-    links(p),
+    contact.html,
     '',
   ];
 
@@ -119,11 +112,15 @@ export function render(p) {
     out.push('');
   }
 
+  if (wall.html) out.push(wall.html, '');
+
   out.push(picture(ASSETS.endDark, ASSETS.endLight, `Back at the surface beside a diver-down buoy and a message in a bottle. ${opts.signoff} ${opts.postscript}`));
 
   return {
     markdown: out.join('\n') + '\n',
     assets: {
+      ...contact.assets,
+      ...wall.assets,
       [ASSETS.heroDark]: heroSvg(p, 'dark', opts),
       [ASSETS.heroLight]: heroSvg(p, 'light', opts),
       [ASSETS.logDark]: logSvg(p, 'dark', opts),
@@ -164,5 +161,26 @@ export const fathom = {
       placeholder: () => DEFAULT_POSTSCRIPT,
     },
   ],
+  sponsorPage: {
+    defaults: { signoff: 'Thanks for the air.', postscript: 'Every sponsor keeps this dive going a little deeper.' },
+    pitchLabel: 'Why this dive needs backing.',
+    nowLabel: 'Currently diving into:',
+    heroAlt: (p, name) => {
+      const n = fathomNumbers(p);
+      return `${name}. Cinematic title card: the camera descends onto a reef grown from the last 52 weeks of contributions, and a depth gauge settles at ${n.depth.toLocaleString('en-US')} metres.`;
+    },
+    panel: {
+      title: 'The dive so far',
+      art: (p) => logSvg(p, 'dark', options(p)),
+      alt: (p) => {
+        const n = fathomNumbers(p);
+        return `The last 365 days as a dive: ${n.depth.toLocaleString('en-US')} metres down at one metre per contribution, in the ${n.zone.name.toLowerCase()} zone. Longest streak ${n.streak} days.`;
+      },
+    },
+    fundsTitle: 'Sightings you help protect',
+    wall: { heading: 'The dive crew', top: 'Dive masters', regular: 'Dive buddies', oneTime: 'Snorkellers' },
+    outro: 'Nobody dives alone. Every sponsor is another tank of air.',
+    end: { art: (p) => surfaceSvg(p, 'dark', options(p)), alt: (p) => `Back at the surface beside a diver-down buoy. ${options(p).signoff} ${options(p).postscript}` },
+  },
   render,
 };

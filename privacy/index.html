@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy | README Templates</title>
+<meta name="description" content="What README Templates stores, what it sends to GitHub, and how to delete your data.">
+<style>
+  :root {
+    --bg: #ffffff; --text: #1f2328; --muted: #59636e; --border: #d1d9e0; --surface: #f6f8fa; --link: #0969da;
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #0d1117; --text: #e6edf3; --muted: #9198a1; --border: #30363d; --surface: #161b22; --link: #4493f8; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 48px 20px 72px; }
+  h1 { margin: 0 0 4px; font-size: 32px; line-height: 1.2; }
+  h2 { margin: 40px 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); font-size: 21px; }
+  p, ul { margin: 0 0 14px; }
+  li { margin-bottom: 6px; }
+  a { color: var(--link); }
+  code { padding: 2px 5px; border-radius: 5px; background: var(--surface); font: 0.88em ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; overflow-wrap: anywhere; }
+  .updated { color: var(--muted); }
+  .summary { margin: 24px 0 0; padding: 14px 18px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+  .summary ul { margin: 0; padding-left: 20px; }
+  .table-wrap { overflow-x: auto; margin-bottom: 14px; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { padding: 9px 12px; border: 1px solid var(--border); text-align: left; vertical-align: top; }
+  th { background: var(--surface); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Privacy Policy</h1>
+  <p class="updated">README Templates · Last updated November 3, 2026</p>
+
+  <div class="summary">
+    <ul>
+      <li>README Templates has no server and no user accounts of its own. We don't receive your data.</li>
+      <li>Your details and GitHub key stay on your device. The key is encrypted; your other details are not.</li>
+      <li>The app talks to GitHub using the key you provide, and only when you connect an account.</li>
+      <li>There are no analytics, ads or tracking.</li>
+    </ul>
+  </div>
+
+  <h2>What this covers</h2>
+  <p>This policy covers the README Templates desktop app for Windows and Linux, including the Microsoft Store version, and the web version you can run yourself from the <a href="https://github.com/Dr-At0mic/README-Templates">source code</a>. The app helps you design a GitHub profile README and publish it to your own GitHub account.</p>
+
+  <h2>What is stored on your device</h2>
+  <p>All of this stays in the app's local storage on your device. None of it is sent to us.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Data</th><th>Details</th><th>Protection</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>GitHub access key</td>
+          <td>Saved only if you choose to keep it on this device. Otherwise it's kept for the current session, or in memory only if encrypted storage isn't available.</td>
+          <td>Encrypted with AES-256-GCM, using a key held on your device that the app's code can use but can't read.</td>
+        </tr>
+        <tr>
+          <td>Saved account details</td>
+          <td>Your GitHub username, display name and avatar address, for the account menu.</td>
+          <td>Not encrypted.</td>
+        </tr>
+        <tr>
+          <td>Data presets</td>
+          <td>Details you save as a preset, such as your name, headline, location, website, email, social and support links, and template options.</td>
+          <td>Not encrypted.</td>
+        </tr>
+        <tr>
+          <td>App preferences</td>
+          <td>Your chosen template and form, the sidebar state and the last active account.</td>
+          <td>Not encrypted.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Your GitHub profile data, sponsor data and unsaved edits are kept in memory while the app runs and are not saved to disk.</p>
+  <p>Encryption protects your key if the app's files are copied. It can't protect against malicious software already running on your device.</p>
+
+  <h2>What is sent to GitHub</h2>
+  <p>Without a connected account, the app makes no requests to GitHub for your profile and shows made-up sample data instead. When you connect an account, the app contacts <code>api.github.com</code> directly from your device, sending your key only to that address, in order to:</p>
+  <ul>
+    <li><strong>Read</strong> your profile, public repositories, contribution calendar, listed social accounts and, if you have a GitHub Sponsors profile, your public sponsors and goal. Private sponsors are not requested. Income figures are not requested.</li>
+    <li><strong>Check</strong> your profile repository before publishing.</li>
+    <li><strong>Write</strong> to your <code>&lt;username&gt;/&lt;username&gt;</code> repository, but only when you select Publish or Upload artwork. It can also create that repository, as public, if it doesn't exist.</li>
+  </ul>
+  <p>What you publish becomes public on GitHub, including any email address or links you entered. GitHub handles this data under the <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub Privacy Statement</a>.</p>
+
+  <h2>Other connections</h2>
+  <ul>
+    <li><strong>Updates:</strong> versions downloaded from GitHub check <code>github.com</code> for new releases at launch and when you select Check for updates. The Microsoft Store version doesn't do this, because the Store handles its updates.</li>
+    <li><strong>Images:</strong> the preview loads your avatar and your sponsors' avatars from GitHub, plus any image addresses you put in your own text. The site hosting an image can see your IP address, as with any web image.</li>
+    <li><strong>Links:</strong> links you select open in your default browser, under that site's own privacy policy.</li>
+    <li><strong>Microsoft:</strong> on Windows, the app runs on Microsoft's WebView2 runtime, and the Store version is delivered by the Microsoft Store. Both are covered by the <a href="https://www.microsoft.com/privacy/privacystatement">Microsoft Privacy Statement</a>.</li>
+  </ul>
+
+  <h2>What we don't collect</h2>
+  <p>The app contains no analytics, advertising, tracking or crash-reporting tools. It has no server of ours to send anything to, so we have no copy of your data and can't see, sell or share it.</p>
+
+  <h2>How to delete your data</h2>
+  <ul>
+    <li><strong>One account:</strong> open the account menu and select the bin icon beside the account.</li>
+    <li><strong>All saved keys:</strong> in the account menu, select Clear all saved keys. This also erases the device encryption key.</li>
+    <li><strong>A preset:</strong> select it in the Data preset list, then select the bin icon.</li>
+    <li><strong>Everything on this device:</strong> uninstall the app, then delete its data folder if it's still there, because uninstalling may not remove it:
+      <ul>
+        <li>Windows: <code>%LOCALAPPDATA%\com.readmetemplates.studio</code></li>
+        <li>Windows, Microsoft Store version, if present: <code>%LOCALAPPDATA%\Packages\DrAtomic.READMETemplates_cqr4nsexcrjqp</code></li>
+        <li>Linux: <code>~/.local/share/com.readmetemplates.studio</code></li>
+      </ul>
+    </li>
+    <li><strong>Your GitHub key:</strong> deleting it from the app doesn't cancel it. Revoke it in your <a href="https://github.com/settings/tokens">GitHub token settings</a>.</li>
+    <li><strong>What you published:</strong> edit or delete the files in your profile repository on GitHub. Earlier versions stay in the repository's history until you remove them.</li>
+  </ul>
+
+  <h2>Children</h2>
+  <p>The app isn't directed at children. Using its GitHub features requires a GitHub account, which is subject to GitHub's own age requirements.</p>
+
+  <h2>Changes to this policy</h2>
+  <p>If this policy changes, the new version will be posted on this page with a new date.</p>
+
+  <h2>Contact</h2>
+  <p>README Templates is made by Anandhu Suresh (Dr Atomic). For privacy questions, please <a href="https://github.com/Dr-At0mic/README-Templates/issues">open an issue on GitHub</a>. Issues are public, so please don't include personal details or your key.</p>
+</main>
+</body>
+</html>

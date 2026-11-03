@@ -3,7 +3,8 @@ import { CheckCircle2, ExternalLink, FileText, Image, AlertTriangle } from 'luci
 import Dialog from './Dialog';
 import { inspectProfileRepo, publishProfile } from '../lib/github';
 
-export default function PublishDialog({ open, onClose, token, login, output, templateName }) {
+// `artworkOnly` commits just the images, for the Sponsors page form: the README is left alone.
+export default function PublishDialog({ open, onClose, token, login, output, templateName, artworkOnly = false }) {
   const [repo, setRepo] = useState(null);
   const [phase, setPhase] = useState('checking'); // checking | ready | publishing | done | error
   const [step, setStep] = useState('');
@@ -14,7 +15,7 @@ export default function PublishDialog({ open, onClose, token, login, output, tem
   useEffect(() => {
     if (!open) return;
     let cancelled = false;
-    setMessage(`Update profile README (${templateName})`);
+    setMessage(artworkOnly ? `Add Sponsors page artwork (${templateName})` : `Update profile README (${templateName})`);
     setPhase('checking');
     setError('');
     setResult(null);
@@ -24,10 +25,10 @@ export default function PublishDialog({ open, onClose, token, login, output, tem
     return () => {
       cancelled = true;
     };
-  }, [open, token, login, templateName]);
+  }, [open, token, login, templateName, artworkOnly]);
 
   const files = [
-    { path: 'README.md', content: output.markdown },
+    ...(artworkOnly ? [] : [{ path: 'README.md', content: output.markdown }]),
     ...Object.entries(output.assets).map(([path, content]) => ({ path, content })),
   ];
 
@@ -51,11 +52,12 @@ export default function PublishDialog({ open, onClose, token, login, output, tem
       open={open}
       onClose={onClose}
       width={520}
-      title={phase === 'done' ? 'Published' : 'Publish to GitHub'}
+      title={artworkOnly ? (phase === 'done' ? 'Artwork uploaded' : 'Upload artwork') : phase === 'done' ? 'Published' : 'Publish to GitHub'}
       description={
         phase === 'done' ? null : (
           <>
-            Commits to <code>{login}/{login}</code> — the repo GitHub shows on your profile.
+            {artworkOnly ? 'Your Sponsors page loads its images from' : 'Commits to'} <code>{login}/{login}</code>
+            {artworkOnly ? '. This commits only the images.' : ' — the repo GitHub shows on your profile.'}
           </>
         )
       }
@@ -65,9 +67,11 @@ export default function PublishDialog({ open, onClose, token, login, output, tem
             <button type="button" className="button" onClick={onClose}>
               Close
             </button>
-            <a className="button button-primary" href={result.profileUrl} target="_blank" rel="noreferrer">
-              View profile <ExternalLink size={14} aria-hidden="true" />
-            </a>
+            {!artworkOnly && (
+              <a className="button button-primary" href={result.profileUrl} target="_blank" rel="noreferrer">
+                View profile <ExternalLink size={14} aria-hidden="true" />
+              </a>
+            )}
           </>
         ) : (
           <>
@@ -80,7 +84,7 @@ export default function PublishDialog({ open, onClose, token, login, output, tem
               onClick={publish}
               disabled={!(phase === 'ready' || (phase === 'error' && repo)) || blocked || !message.trim()}
             >
-              {phase === 'publishing' ? step || 'Publishing…' : 'Publish'}
+              {phase === 'publishing' ? step || 'Publishing…' : artworkOnly ? 'Upload artwork' : 'Publish'}
             </button>
           </>
         )
@@ -93,7 +97,7 @@ export default function PublishDialog({ open, onClose, token, login, output, tem
             <code>{login}/{login}</code>.
           </p>
           <p className="note">
-            GitHub can take a minute to refresh the profile page.{' '}
+            {artworkOnly ? 'Next, use Copy for Sponsors and paste into your dashboard.' : 'GitHub can take a minute to refresh the profile page.'}{' '}
             {result.commitUrl && (
               <a href={result.commitUrl} target="_blank" rel="noreferrer">
                 View commit
@@ -107,12 +111,17 @@ export default function PublishDialog({ open, onClose, token, login, output, tem
             {phase === 'checking' && <span className="muted">Checking {login}/{login}…</span>}
             {repo && !repo.exists && (
               <span>
-                Repo doesn’t exist yet — it will be <strong>created as public</strong>.
+                Repo doesn’t exist yet — it will be <strong>created as public</strong>
+                {artworkOnly ? ', with GitHub’s default README showing on your profile.' : '.'}
               </span>
             )}
             {repo?.exists && !repo.isPrivate && (
               <span>
-                {repo.hasReadme ? (
+                {artworkOnly ? (
+                  <>
+                    Adds images on <code>{repo.defaultBranch}</code>. <strong>Your README.md isn’t changed.</strong>
+                  </>
+                ) : repo.hasReadme ? (
                   <>
                     <strong>Replaces the existing README.md</strong> on <code>{repo.defaultBranch}</code>. The old version
                     stays in git history.
