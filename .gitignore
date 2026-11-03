@@ -36,3 +36,6 @@ desktop.ini
 .vscode/
 .idea/
 *.log
+
+# Launch video sources and renders (large, local only)
+/Promo/
