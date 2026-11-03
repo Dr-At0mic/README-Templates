@@ -30,7 +30,11 @@ Most README generators hand you a block of markdown, and the rest is your job: c
 - **Artwork from your real data.** Contributions, active days, streaks, languages and stars become the art itself. No third-party stats widgets that rate-limit or disappear: every image is a plain SVG committed to your own repo.
 - **What you see is what GitHub shows.** The live preview renders the README the way GitHub does, in both dark and light themes.
 - **The app keeps itself up to date.** It checks for new versions at launch, so new templates and fixes arrive with one click: **Check for updates → Install and restart**.
-- **Try it without signing in.** With no account connected, it runs on built-in sample data and makes no network requests at all.
+- **Try it without signing in.** With no account connected, it runs on built-in sample data, and nothing about you goes anywhere.
+- **Save your details once.** Keep your name, links and options as **data presets**, switch between them, and pick a default that loads when the app opens.
+- **Real badges for your links.** Add any of 54 social and support platforms, including Instagram, YouTube, LinkedIn, GitHub Sponsors, Buy Me a Coffee, Ko-fi and Patreon. Each becomes a clickable brand badge, and links you already list on GitHub fill in when you connect.
+- **Thank your sponsors.** An optional sponsor wall groups your public sponsors into top, monthly and one-time, and shows your goal. It never shows private sponsors or amounts.
+- **A themed GitHub Sponsors page too.** Every template has a second form for your Sponsors profile, with its own data and presets. GitHub can't publish that page for you, so upload the artwork, then copy and paste the text into your dashboard.
 
 ## Your token stays with you
 
@@ -40,6 +44,8 @@ You don't hand your GitHub access to anyone. There's **no server, no sign-up and
 - **Your choice of storage:** for each account, save it on this device (encrypted with AES-256-GCM, using a device key the app can't export), keep it for this session only, or remove it. **Clear all saved keys** wipes everything at once.
 - **Public data only:** the app reads only your public, non-fork repositories, so private repo names never end up in a public README.
 - **Open source:** every line is in this repo, so you can check it yourself.
+
+Read the full **[privacy policy](https://dr-at0mic.github.io/readme-templates/privacy/)**.
 
 <details>
 <summary>Technical details: how tokens are stored</summary>
@@ -246,7 +252,8 @@ A local Linux build only runs on distros with the same glibc as the machine that
 Releases are built by GitHub Actions ([.github/workflows/release.yml](.github/workflows/release.yml)). The workflow builds the Windows and Linux packages, signs the update files, and publishes a GitHub release with the `latest.json` the update button reads.
 
 ```bash
-# 1. bump "version" in package.json (the desktop app reads it from there)
+# 1. bump "version" in package.json (the desktop app reads it from there) and in src-tauri/Cargo.toml,
+#    and update .github/release-notes.txt
 # 2. commit, then tag and push:
 git tag v2.1.0
 git push origin v2.1.0

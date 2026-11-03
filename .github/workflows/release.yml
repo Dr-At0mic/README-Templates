@@ -64,6 +64,7 @@ jobs:
             echo
             echo 'Download the installer for your system below, or use Check for updates in the app.'
             echo 'Windows: *_x64-setup.exe · Debian/Ubuntu: *.deb · Fedora/openSUSE: *.rpm · any distro: *.AppImage'
+            echo 'The *_store-upload.msix file is only for Microsoft Store submission and can'"'"'t be installed directly.'
             echo 'NOTES_EOF'
           } >> "$GITHUB_OUTPUT"
 
@@ -86,6 +87,8 @@ jobs:
   # The Microsoft Store package, attached to the release for upload in Partner Center. It's unsigned on
   # purpose, because the Store signs it, so people can't install this file directly.
   store-msix:
+    # Forks don't have this Store identity or its secrets.
+    if: github.repository == 'Dr-At0mic/README-Templates'
     needs: build
     runs-on: windows-latest
 
