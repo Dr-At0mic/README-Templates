@@ -4,6 +4,8 @@
 // recruiter or screen reader needs is real text.
 
 import { braceletSvg, defaultCatName, diarySvg, dollhouseNumbers, heroSvg } from './art';
+import { renderLinks } from '../../lib/links';
+import { renderSponsorWall } from '../../lib/sponsors';
 
 const ASSETS = {
   heroDark: 'assets/dollhouse-hero-dark.svg',
@@ -27,17 +29,6 @@ function picture(dark, light, alt) {
   ].join('\n');
 }
 
-function links(p) {
-  const twitter = p.twitter?.replace(/^@/, '');
-  const items = [
-    p.website && `<a href="${html(p.website)}">${html(p.website.replace(/^https?:\/\//, '').replace(/\/$/, ''))}</a>`,
-    p.email && `<a href="mailto:${html(p.email)}">${html(p.email)}</a>`,
-    twitter && `<a href="https://x.com/${html(twitter)}">X @${html(twitter)}</a>`,
-    p.linkedin && `<a href="${html(p.linkedin)}">LinkedIn</a>`,
-  ].filter(Boolean);
-  return items.length ? `<p align="center">${items.join(' &nbsp;·&nbsp; ')}</p>` : '';
-}
-
 function options(p) {
   const o = p.templateData?.dollhouse || {};
   return {
@@ -48,6 +39,8 @@ function options(p) {
 }
 
 export function render(p) {
+  const contact = renderLinks(p);
+  const wall = renderSponsorWall(p);
   const opts = options(p);
   const name = p.name || p.login;
   const n = dollhouseNumbers(p);
@@ -63,7 +56,7 @@ export function render(p) {
     ),
     '',
     `<p align="center"><b>${html(name)}</b>${p.headline ? ` · ${html(p.headline)}` : ''}</p>`,
-    links(p),
+    contact.html,
     '',
   ];
 
@@ -107,11 +100,15 @@ export function render(p) {
     out.push('');
   }
 
+  if (wall.html) out.push(wall.html, '');
+
   out.push(picture(ASSETS.endDark, ASSETS.endLight, `A bead bracelet spelling “${opts.signoff}”. Thanks for visiting!`));
 
   return {
     markdown: out.join('\n') + '\n',
     assets: {
+      ...contact.assets,
+      ...wall.assets,
       [ASSETS.heroDark]: heroSvg(p, 'dark', opts),
       [ASSETS.heroLight]: heroSvg(p, 'light', opts),
       [ASSETS.diaryDark]: diarySvg(p, 'dark', opts),
@@ -152,5 +149,24 @@ export const dollhouse = {
       placeholder: () => 'XOXO',
     },
   ],
+  sponsorPage: {
+    defaults: { speech: 'Will you be my sponsor?', signoff: 'THANK U' },
+    pitchLabel: 'Dear sponsor,',
+    nowLabel: 'Currently obsessed with:',
+    heroAlt: (p, name) => `${name}. A pastel doll's-house room. A kitten in a gift box asks: “${options(p).speech}”`,
+    panel: {
+      title: 'A peek at my diary',
+      art: (p) => diarySvg(p, 'dark', options(p)),
+      alt: (p) => {
+        const n = dollhouseNumbers(p);
+        return `Diary page: the last year as a heart made of one tiny heart per day, with ${n.total.toLocaleString('en-US')} contributions and a ${n.streak}-day longest streak.`;
+      },
+    },
+    fundsTitle: 'Favourite things you help keep alive',
+    repoPrefix: () => '🎀 ',
+    wall: { heading: 'My best friends', top: 'Besties forever', regular: 'Best friends', oneTime: 'Sweet visitors' },
+    outro: 'There’s always room for one more in the dollhouse.',
+    end: { art: (p) => braceletSvg(p, 'dark', options(p)), alt: (p) => `A bead bracelet spelling “${options(p).signoff}”.` },
+  },
   render,
 };

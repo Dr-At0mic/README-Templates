@@ -4,6 +4,8 @@
 // as text, and an end card. Every image is self-hosted and fully described.
 
 import { endSvg, featuredRepos, heroSvg, pacNumbers, scoreSvg } from './art';
+import { renderLinks } from '../../lib/links';
+import { renderSponsorWall } from '../../lib/sponsors';
 
 const ASSETS = {
   heroDark: 'assets/pacman-hero-dark.svg',
@@ -29,17 +31,6 @@ function picture(dark, light, alt) {
   ].join('\n');
 }
 
-function links(p) {
-  const twitter = p.twitter?.replace(/^@/, '');
-  const items = [
-    p.website && `<a href="${html(p.website)}">${html(p.website.replace(/^https?:\/\//, '').replace(/\/$/, ''))}</a>`,
-    p.email && `<a href="mailto:${html(p.email)}">${html(p.email)}</a>`,
-    twitter && `<a href="https://x.com/${html(twitter)}">X @${html(twitter)}</a>`,
-    p.linkedin && `<a href="${html(p.linkedin)}">LinkedIn</a>`,
-  ].filter(Boolean);
-  return items.length ? `<p align="center">${items.join(' &nbsp;·&nbsp; ')}</p>` : '';
-}
-
 function options(p) {
   const o = p.templateData?.pacman || {};
   return {
@@ -49,6 +40,8 @@ function options(p) {
 }
 
 export function render(p) {
+  const contact = renderLinks(p);
+  const wall = renderSponsorWall(p);
   const opts = options(p);
   const name = p.name || p.login;
   const n = pacNumbers(p);
@@ -67,7 +60,7 @@ export function render(p) {
     ),
     '',
     `<p align="center"><b>${html(name)}</b>${opts.role ? ` · ${html(opts.role)}` : ''}${p.headline ? ` · ${html(p.headline)}` : ''}</p>`,
-    links(p),
+    contact.html,
     '',
   ];
 
@@ -112,11 +105,15 @@ export function render(p) {
 
   if (langs.length) out.push(`**Power-ups:** ${langs.map((l) => l.name).join(' · ')}`, '');
 
+  if (wall.html) out.push(wall.html, '');
+
   out.push(picture(ASSETS.endDark, ASSETS.endLight, `End card: an arcade intermission, a ghost chasing the chomper across the screen and a giant chomper chasing it back. Then the sign-off: ${opts.signoff}`));
 
   return {
     markdown: out.join('\n') + '\n',
     assets: {
+      ...contact.assets,
+      ...wall.assets,
       [ASSETS.heroDark]: heroSvg(p, 'dark', opts),
       [ASSETS.heroLight]: heroSvg(p, 'light', opts),
       [ASSETS.scoreDark]: scoreSvg(p, 'dark'),
@@ -151,5 +148,28 @@ export const pacman = {
       placeholder: () => DEFAULT_SIGNOFF,
     },
   ],
+  sponsorPage: {
+    defaults: { signoff: 'THANKS FOR THE COIN' },
+    pitchLabel: 'Player 2, insert coin.',
+    nowLabel: 'Now playing:',
+    role: (p) => options(p).role,
+    heroAlt: (p, name) => `${name}. An arcade maze built from the last year of contributions, one pellet per day, with a demo game playing out.`,
+    panel: {
+      title: 'The scores to beat',
+      art: (p) => scoreSvg(p, 'dark'),
+      alt: (p) => {
+        const n = pacNumbers(p);
+        return `Scoreboard. High scores: ${n.total.toLocaleString('en-US')} contributions, longest streak ${n.streak} days.`;
+      },
+    },
+    fundsTitle: 'The ghosts you keep in the maze',
+    notes: (p) => {
+      const langs = (p.languages || []).slice(0, 6);
+      return langs.length ? [`**Power-ups:** ${langs.map((l) => l.name).join(' · ')}`] : [];
+    },
+    wall: { heading: 'Hall of fame', top: 'Grand champions', regular: 'Players', oneTime: 'Single credit' },
+    outro: 'This machine runs on coins. Press start.',
+    end: { art: (p) => endSvg(p, 'dark', options(p)), alt: (p) => `End card: an arcade intermission. ${options(p).signoff}` },
+  },
   render,
 };

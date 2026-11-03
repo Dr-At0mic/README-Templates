@@ -14,6 +14,8 @@ A desktop app for Windows and Linux (or a web app you run yourself). Pick a temp
 
 **[⬇ Download the latest release](https://github.com/Dr-At0mic/README-Templates/releases/latest)**
 
+<a href="https://apps.microsoft.com/detail/9PKHWBM0FP7P"><img src="https://get.microsoft.com/images/en-us%20dark.svg" alt="Get it from Microsoft Store" width="200"></a>
+
 ---
 
 ## More than a template gallery
@@ -148,7 +150,7 @@ Your year as a ridgeline: twelve stacked lines, one per month, traced from your 
 
 ## Download
 
-Grab the latest build from **[Releases](https://github.com/Dr-At0mic/README-Templates/releases/latest)**:
+On Windows, the easiest way is the **[Microsoft Store](https://apps.microsoft.com/detail/9PKHWBM0FP7P)**. Or grab the latest build from **[Releases](https://github.com/Dr-At0mic/README-Templates/releases/latest)**:
 
 | System | File | Install |
 |---|---|---|
@@ -169,6 +171,7 @@ The **Check for updates** button sits in the top bar.
 - One click shows what's new, downloads the update, verifies it against the project's signing key (so a tampered file is refused), installs it and restarts the app.
 - Your saved accounts and edits are kept.
 - On Linux, updating a `.deb` or `.rpm` install asks for your password. The AppImage updates itself in place.
+- The Microsoft Store version has no such button, because the Store keeps it up to date.
 
 ## How it works
 
@@ -258,6 +261,30 @@ The workflow needs these repository secrets (**Settings → Secrets and variable
 | `VITE_VAULT_SECRET` | Any random string. Keep it the same across releases, or saved accounts stop decrypting after an update. |
 
 **Publishing your own builds from a fork?** Generate your own key pair with `npx tauri signer generate -w ~/.tauri/readme-templates.key`. Then, in [src-tauri/tauri.conf.json](src-tauri/tauri.conf.json), replace `plugins.updater.pubkey` with your public key, and point `endpoints` at your repo's releases. Otherwise your builds will look for updates from this repo. Never commit the private key; `*.key` is gitignored.
+
+## Microsoft Store build
+
+```powershell
+npm run desktop:build:store
+```
+
+This writes an `.msix` to `src-tauri/target/msix/` for uploading in Partner Center. It needs Windows, the Windows SDK and `VITE_VAULT_SECRET`. The version comes from `package.json`: `1.5.0` becomes `1.5.0.0`. The file is unsigned on purpose, because the Store signs it, and the release workflow attaches a copy to each release.
+
+## About the developer
+
+README Templates is built by **Anandhu Suresh**, a full-stack software engineer.
+
+- Website: [dr-at0mic.github.io](https://dr-at0mic.github.io/)
+- GitHub: [@Dr-At0mic](https://github.com/Dr-At0mic)
+
+## Support this project
+
+The app is free and open source. If it helped your profile, you can back the work:
+
+<p>
+  <a href="https://github.com/sponsors/Dr-At0mic"><img src="assets/public/badge-github-sponsors.svg" alt="GitHub Sponsors" height="28"></a>
+  <a href="https://buymeacoffee.com/anandhu.suresh"><img src="assets/public/badge-buy-me-a-coffee.svg" alt="Buy Me a Coffee" height="28"></a>
+</p>
 
 ## Contributing
 

@@ -1,10 +1,18 @@
-What's new in 1.5.0
+What's new in 1.6.0
 
-New template: Pacman
-- Your year as an arcade maze: your contribution calendar becomes the board, with a pellet for every day (bigger on busier days) and your busiest days as the power pellets.
-- The walls are generated from your username and mirrored like a real arcade board, with a wrap-around tunnel, and your name lights up in the same neon tubing (accents included).
-- After READY!, a demo game plays: the chomper eats its way to a power pellet, powers up and hunts down the ghosts, which are your featured repos. Each one pops its stars and floats home to the pen. The HUD keeps score: contributions, best day, streak and your level.
-- Scoreboard: meet the ghosts, one per project, then your numbers as a ranked high-score table and your languages as bonus items.
-- End card: an intermission chase, then the chomper writes out your sign-off: "Thanks for playing!"
-- Options: your player class and the closing line.
-- Animated, with dark (arcade screen) and light (printed) versions, and it respects reduced motion.
+Save your details
+- Data presets: save your name, links and options once, then switch to them instead of retyping. Choose a default that loads when the app opens.
+
+Links and support
+- Add 54 platforms with real brand badges, including Instagram, YouTube, LinkedIn, GitHub Sponsors, Buy Me a Coffee, Ko-fi and Patreon.
+- Your GitHub Sponsors badge appears by itself if you have a Sponsors profile, and links you already list on GitHub fill in when you connect.
+- Optional sponsor wall: thank your public sponsors in your README, grouped into top, monthly and one-time, without showing any amounts. Private sponsors are never included.
+
+GitHub Sponsors pages
+- Every template now has a second form: a themed page for your GitHub Sponsors profile, with its own data and presets.
+- Upload the artwork, then copy and paste the text into your Sponsors dashboard. Your README isn't changed.
+
+Also new
+- An About screen with ways to support the project.
+- A clear message if the WebView2 runtime is missing on Windows.
+- The Microsoft Store version updates through the Store.

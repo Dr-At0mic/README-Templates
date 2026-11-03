@@ -3,7 +3,9 @@ import { Check, Copy, Download, Moon, PanelLeftClose, PanelLeftOpen, RotateCcw, 
 import { renderPreview } from '../lib/preview';
 import { download } from '../lib/download';
 
-export default function PreviewPanel({ output, login, animated, sidebarOpen, onToggleSidebar }) {
+export default function PreviewPanel({ output, login, animated, sidebarOpen, onToggleSidebar, form, canCopy }) {
+  const sponsors = form === 'sponsors';
+  const fileName = sponsors ? 'sponsors-intro.md' : 'README.md';
   const [view, setView] = useState('preview');
   const [theme, setTheme] = useState('dark');
   const [copied, setCopied] = useState(false);
@@ -67,16 +69,17 @@ export default function PreviewPanel({ output, login, animated, sidebarOpen, onT
               {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
             </button>
           )}
-          <button type="button" className="button button-ghost" onClick={copy}>
+          <button type="button" className="button button-ghost" onClick={copy} disabled={!canCopy}>
             {copied ? <Check size={14} aria-hidden="true" /> : <Copy size={14} aria-hidden="true" />}
             {copied ? 'Copied' : 'Copy'}
           </button>
           <button
             type="button"
             className="button button-ghost"
-            onClick={() => download('README.md', output.markdown, 'text/markdown')}
+            onClick={() => download(fileName, output.markdown, 'text/markdown')}
+            disabled={!canCopy}
           >
-            <Download size={14} aria-hidden="true" /> README.md
+            <Download size={14} aria-hidden="true" /> {fileName}
           </button>
         </div>
       </div>
@@ -86,7 +89,13 @@ export default function PreviewPanel({ output, login, animated, sidebarOpen, onT
           <div className={`gh-frame gh-${theme}`}>
             <div className="gh-frame-header">
               <span className="mono">
-                {login} / README<span className="muted">.md</span>
+                {sponsors ? (
+                  `github.com/sponsors/${login}`
+                ) : (
+                  <>
+                    {login} / README<span className="muted">.md</span>
+                  </>
+                )}
               </span>
             </div>
             <article className="gh-markdown" dangerouslySetInnerHTML={{ __html: html }} />
@@ -97,7 +106,7 @@ export default function PreviewPanel({ output, login, animated, sidebarOpen, onT
               <code>{output.markdown}</code>
             </pre>
             <div className="asset-list">
-              <p className="label">Artwork — commit next to README.md</p>
+              <p className="label">{sponsors ? 'Artwork — upload to your profile repo' : 'Artwork — commit next to README.md'}</p>
               <ul>
                 {Object.entries(output.assets).map(([path, svg]) => (
                   <li key={path}>

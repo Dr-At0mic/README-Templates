@@ -3,6 +3,8 @@
 // telemetry, and a flight log of projects — with every image self-hosted and fully described.
 
 import { heroSvg, missionNumbers, roman, telemetrySvg, transmissionEndSvg } from './art';
+import { renderLinks } from '../../lib/links';
+import { renderSponsorWall } from '../../lib/sponsors';
 
 const ASSETS = {
   heroDark: 'assets/singularity-hero-dark.svg',
@@ -26,17 +28,6 @@ function picture(dark, light, alt) {
   ].join('\n');
 }
 
-function links(p) {
-  const twitter = p.twitter?.replace(/^@/, '');
-  const items = [
-    p.website && `<a href="${html(p.website)}">${html(p.website.replace(/^https?:\/\//, '').replace(/\/$/, ''))}</a>`,
-    p.email && `<a href="mailto:${html(p.email)}">${html(p.email)}</a>`,
-    twitter && `<a href="https://x.com/${html(twitter)}">X @${html(twitter)}</a>`,
-    p.linkedin && `<a href="${html(p.linkedin)}">LinkedIn</a>`,
-  ].filter(Boolean);
-  return items.length ? `<p align="center">${items.join(' &nbsp;·&nbsp; ')}</p>` : '';
-}
-
 export function defaultMissionName(p) {
   return `Horizon ${roman(missionNumbers(p).years)}`;
 }
@@ -50,6 +41,8 @@ function options(p) {
 }
 
 export function render(p) {
+  const contact = renderLinks(p);
+  const wall = renderSponsorWall(p);
   const opts = options(p);
   const name = p.name || p.login;
   const n = missionNumbers(p);
@@ -64,7 +57,7 @@ export function render(p) {
     ),
     '',
     `<p align="center"><b>${html(name)}</b>${p.headline ? ` · ${html(p.headline)}` : ''}</p>`,
-    links(p),
+    contact.html,
     '',
   ];
 
@@ -110,11 +103,15 @@ export function render(p) {
     out.push('');
   }
 
+  if (wall.html) out.push(wall.html, '');
+
   out.push(picture(ASSETS.endDark, ASSETS.endLight, `End of transmission. ${opts.signoff}.`));
 
   return {
     markdown: out.join('\n') + '\n',
     assets: {
+      ...contact.assets,
+      ...wall.assets,
       [ASSETS.heroDark]: heroSvg(p, 'dark', opts),
       [ASSETS.heroLight]: heroSvg(p, 'light', opts),
       [ASSETS.telemetryDark]: telemetrySvg(p, 'dark', opts),
@@ -148,5 +145,25 @@ export const singularity = {
       placeholder: () => 'See you on the other side',
     },
   ],
+  sponsorPage: {
+    defaults: { signoff: 'Thank you for fuelling the mission' },
+    quoted: true,
+    pitchLabel: 'Mission brief.',
+    nowLabel: 'Current objective.',
+    heroAlt: (p, name) => `${name}. Cinematic title card: a black hole whose accretion disk is drawn from ${missionNumbers(p).total.toLocaleString('en-US')} contributions, one particle per day.`,
+    panel: {
+      title: 'Telemetry for mission backers',
+      art: (p) => telemetrySvg(p, 'dark', options(p)),
+      alt: (p) => {
+        const n = missionNumbers(p);
+        return `Mission telemetry for ${options(p).missionName}: ${n.years} years on GitHub, ${n.total.toLocaleString('en-US')} contributions in the last 12 months, longest streak ${n.streak} days.`;
+      },
+    },
+    fundsTitle: 'Missions you keep in flight',
+    repoPrefix: (i) => `\`MSN-${String(i + 1).padStart(2, '0')}\` `,
+    wall: { heading: 'Mission control', top: 'Flight directors', regular: 'Flight crew', oneTime: 'Ground support' },
+    outro: 'No mission reaches the horizon alone. Every sponsor extends the flight.',
+    end: { art: (p) => transmissionEndSvg(p, 'dark', options(p)), alt: (p) => `End of transmission. ${options(p).signoff}.` },
+  },
   render,
 };

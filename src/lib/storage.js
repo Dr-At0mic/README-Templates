@@ -13,7 +13,8 @@ export function savePref(name, value) {
   try {
     if (value === null) localStorage.removeItem(`readme-templates.${name}`);
     else localStorage.setItem(`readme-templates.${name}`, value);
+    return true;
   } catch {
-    /* preference just won't persist */
+    return false; // preference just won't persist
   }
 }

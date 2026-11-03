@@ -82,3 +82,36 @@ jobs:
           prerelease: false
           # Signed updater artifacts + latest.json (local builds skip them and need no key).
           args: --config src-tauri/tauri.release.conf.json
+
+  # The Microsoft Store package, attached to the release for upload in Partner Center. It's unsigned on
+  # purpose, because the Store signs it, so people can't install this file directly.
+  store-msix:
+    needs: build
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri -> target
+
+      - run: npm ci
+
+      - name: Build the MSIX
+        env:
+          VITE_VAULT_SECRET: ${{ secrets.VITE_VAULT_SECRET }}
+        run: npm run desktop:build:store
+
+      - name: Attach it to the release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload "v$(node -p "require('./package.json').version")" src-tauri/target/msix/*.msix --clobber

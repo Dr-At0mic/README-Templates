@@ -583,7 +583,8 @@ textarea::-webkit-scrollbar {
 }
 
 input:not([type='checkbox']),
-textarea {
+textarea,
+select {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid var(--border-strong);
@@ -605,15 +606,28 @@ textarea::placeholder {
 }
 
 input:hover:not(:focus),
-textarea:hover:not(:focus) {
+textarea:hover:not(:focus),
+select:hover:not(:focus) {
   border-color: #3d444d;
 }
 
 input:focus,
-textarea:focus {
+textarea:focus,
+select:focus {
   outline: none;
   border-color: var(--text-2);
   box-shadow: 0 0 0 3px rgba(231, 234, 238, 0.08);
+}
+
+/* The browser's own arrow sits hard against the edge and looks different per OS, so draw one. */
+select {
+  appearance: none;
+  padding-right: 32px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23a1a9b3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  text-overflow: ellipsis;
+  cursor: pointer;
 }
 
 input[type='checkbox'] {
@@ -729,6 +743,203 @@ input[type='checkbox'] {
 
 .template-current .template-name {
   font-size: 18px;
+}
+
+.segmented.form-switch {
+  display: flex;
+  margin-top: 14px;
+}
+
+.form-switch button {
+  flex: 1;
+  white-space: nowrap;
+}
+
+.form-hint {
+  margin-top: 10px;
+}
+
+.preset-card {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.preset-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.preset-row select {
+  flex: 1;
+  min-width: 0;
+}
+
+.preset-row .is-on {
+  color: var(--text);
+}
+
+.preset-hint {
+  margin: 8px 0 0;
+  color: var(--text-3);
+  font-size: 12.5px;
+}
+
+.preset-hint:empty {
+  display: none;
+}
+
+.preset-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.about-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.about-name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.about-role {
+  margin: 0;
+  color: var(--text-2);
+}
+
+.about-links {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.about-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-2);
+}
+
+.about-support {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* Taller than a plain button, to fit the brand icon. */
+.about-support-link {
+  height: 40px;
+  padding: 0 14px 0 6px;
+}
+
+.preset-copy {
+  align-self: flex-start;
+  margin-top: 10px;
+  font-size: 12.5px;
+}
+
+.preset-card .field-error {
+  margin-top: 8px;
+}
+
+.brand-tile {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+}
+
+.link-rows,
+.link-grid {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.link-row-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.link-row-main input {
+  flex: 1;
+  min-width: 0;
+}
+
+.link-row .field-error {
+  margin-top: 6px;
+}
+
+/* Scrolls without a visible scrollbar, like the rest of the app. */
+.link-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  max-height: min(50vh, 400px);
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.link-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.link-choice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  font: 13px var(--font-sans);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 150ms var(--ease);
+}
+
+.link-choice:hover:not(:disabled) {
+  background: var(--surface-2);
+}
+
+.link-choice:disabled {
+  color: var(--text-3);
+  cursor: default;
+}
+
+.link-choice:disabled .brand-tile {
+  opacity: 0.5;
+}
+
+.link-choice-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* ---------- Template gallery ---------- */

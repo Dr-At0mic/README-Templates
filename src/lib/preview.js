@@ -26,8 +26,10 @@ function resolveRelative(markdown, assets) {
   return markdown.replace(/\.\/(assets\/[^\s")]+)/g, (match, path) => (assets[path] ? toDataUri(assets[path]) : match));
 }
 
-export function renderPreview({ markdown, assets: rawAssets }, theme, nonce = 0) {
+export function renderPreview({ markdown: raw, assets: rawAssets, assetBase }, theme, nonce = 0) {
   const assets = withNonce(rawAssets, nonce);
+  // Sponsors page output links its images by full URL, which may not be uploaded yet: preview the local copy.
+  const markdown = assetBase ? raw.split(`${assetBase}assets/`).join('./assets/') : raw;
   const resolved = resolveRelative(resolvePictures(markdown, assets, theme), assets);
   const html = marked.parse(resolved, { gfm: true });
   return DOMPurify.sanitize(html, { ADD_ATTR: ['target'] });

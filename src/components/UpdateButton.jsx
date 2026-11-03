@@ -3,9 +3,10 @@ import { AlertTriangle, CheckCircle2, ExternalLink, RefreshCw } from 'lucide-rea
 import Dialog from './Dialog';
 import { RELEASES_URL, canUpdate, checkForUpdate, installUpdate } from '../lib/updater';
 
-// Desktop only: "Check for updates" in the top bar. Checks quietly once at launch and marks the
-// button when a newer release exists; the dialog then shows the notes and installs it.
+// Desktop only, except the Store build: "Check for updates" in the top bar. Checks quietly once at launch
+// and marks the button when a newer release exists; the dialog then shows the notes and installs it.
 export default function UpdateButton() {
+  const [enabled, setEnabled] = useState(false);
   const [open, setOpen] = useState(false);
   const [update, setUpdate] = useState(null);
   const [phase, setPhase] = useState('idle'); // idle | checking | none | available | installing | error
@@ -13,10 +14,14 @@ export default function UpdateButton() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (!canUpdate()) return;
     let cancelled = false;
     // A failed launch check (offline, no release yet) stays silent; the button still works.
-    checkForUpdate()
+    canUpdate()
+      .then((allowed) => {
+        if (!allowed || cancelled) return null;
+        setEnabled(true);
+        return checkForUpdate();
+      })
       .then((found) => !cancelled && found && (setUpdate(found), setPhase('available')))
       .catch(() => {});
     return () => {
@@ -24,7 +29,7 @@ export default function UpdateButton() {
     };
   }, []);
 
-  if (!canUpdate()) return null;
+  if (!enabled) return null;
 
   const check = async () => {
     setPhase('checking');

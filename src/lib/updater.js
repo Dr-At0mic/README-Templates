@@ -1,11 +1,15 @@
 // Desktop app updates: signed builds published as GitHub releases (see .github/workflows/release.yml).
 // The manifest URL and the public key that verifies every download live in src-tauri/tauri.conf.json.
 
-import { isTauri } from '@tauri-apps/api/core';
+import { invoke, isTauri } from '@tauri-apps/api/core';
 
 export const RELEASES_URL = 'https://github.com/Dr-At0mic/README-Templates/releases';
 
-export const canUpdate = () => isTauri();
+// False on the web, and in the Microsoft Store build, where the Store handles updates.
+export async function canUpdate() {
+  if (!isTauri()) return false;
+  return !(await invoke('is_store_package'));
+}
 
 // Resolves to the pending update ({ version, currentVersion, date, body, downloadAndInstall }) or null.
 // Loaded on demand so the web build never pulls in the desktop plugins.
