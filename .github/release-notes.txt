@@ -1,18 +1,14 @@
-What's new in 1.6.0
+What's new in 1.7.0
 
-Save your details
-- Data presets: save your name, links and options once, then switch to them instead of retyping. Choose a default that loads when the app opens.
+Five professional templates
+- Annual Report: your year as a shareholder report, with a serif cover, key figures that roll into place like an odometer, a monthly bar chart and your languages as a portfolio.
+- Ticker: your year as a listed stock, with weekly candlesticks of your activity, a ticker symbol from your username (or your own) and a scrolling tape of your repos.
+- Intaglio: an engraved certificate in the manner of a banknote, with a fine-line medallion drawn from your year, your name in engraved capitals and a seal that stamps down.
+- Departures: a split-flap departures board where every letter flips into place. Your projects are the flights, and what you're working on now is boarding.
+- Swiss: a Swiss-style typographic poster with a strict grid, one red and your contributions set as an oversized figure.
 
-Links and support
-- Add 54 platforms with real brand badges, including Instagram, YouTube, LinkedIn, GitHub Sponsors, Buy Me a Coffee, Ko-fi and Patreon.
-- Your GitHub Sponsors badge appears by itself if you have a Sponsors profile, and links you already list on GitHub fill in when you connect.
-- Optional sponsor wall: thank your public sponsors in your README, grouped into top, monthly and one-time, without showing any amounts. Private sponsors are never included.
-
-GitHub Sponsors pages
-- Every template now has a second form: a themed page for your GitHub Sponsors profile, with its own data and presets.
-- Upload the artwork, then copy and paste the text into your Sponsors dashboard. Your README isn't changed.
-
-Also new
-- An About screen with ways to support the project.
-- A clear message if the WebView2 runtime is missing on Windows.
-- The Microsoft Store version updates through the Store.
+Made for founders, executives and senior engineers
+- Each new template has fields for your title and organisation. Annual Report also lists up to three highlights.
+- Your name, role and projects stay as plain text, and every number comes from your public GitHub activity.
+- Each has its own themed GitHub Sponsors page.
+- Search "Professional" on the Templates page to see all five.
