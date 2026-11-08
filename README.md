@@ -61,11 +61,25 @@ Read the full **[privacy policy](https://dr-at0mic.github.io/readme-templates/pr
 
 ## Templates
 
-> **There are 8 templates for now, and more are coming soon.** Thanks to the built-in updater, new ones show up in the desktop app automatically. Have an idea for a style? [Open an issue](https://github.com/Dr-At0mic/README-Templates/issues) or [build one yourself](CONTRIBUTING.md#add-a-new-template).
+> **There are 13 templates for now, and more are coming soon.** Thanks to the built-in updater, new ones show up in the desktop app automatically. Have an idea for a style? [Open an issue](https://github.com/Dr-At0mic/README-Templates/issues) or [build one yourself](CONTRIBUTING.md#add-a-new-template).
 
 <p align="center">
-  <img src="assets/public/templates-gallery.png" alt="The Templates page: Pulsar, Shōnen, Singularity, Dollhouse, ADHD, Fathom, Breakdown and Pacman cards with live previews, search, an Animated/Static filter and a Dark/Light toggle" width="100%">
+  <img src="assets/public/templates-gallery.png" alt="The Templates page: Pulsar, Shōnen, Singularity, Dollhouse, ADHD, Fathom, Breakdown, Pacman, Annual Report, Ticker, Intaglio, Departures and Swiss cards with live previews, search, an Animated/Static filter and a Dark/Light toggle" width="100%">
 </p>
+
+### Professional · five animated templates for founders, executives and senior engineers
+
+Restrained palettes, real typography and motion that settles, for a profile that has to work in front of a board, a client or a hiring committee. Each one has fields for your **title** and **organisation**, keeps your name, role and projects as plain text, and draws only numbers you can check on GitHub.
+
+<p align="center">
+  <img src="assets/public/professional.png" alt="The five professional templates: Annual Report, a navy report cover with a serif name, key figures and a monthly bar chart; Ticker, a market terminal with weekly candlesticks and a ticker tape; Intaglio, an engraved certificate with a guilloché medallion and a red seal; Departures, a split-flap board listing repositories as flights; and Swiss, a typographic poster with a red disc and an oversized figure" width="100%">
+</p>
+
+- **Annual Report:** your year as a shareholder report. A serif cover with your role in brass capitals, four key figures that roll into place like an odometer, and contributions per month as an audited bar chart with its average. Inside: a key-figures table and your languages as a portfolio donut. You can add up to three highlights, listed as text.
+- **Ticker:** your year as a listed stock. The price is an activity index (contributions in the trailing 28 days), drawn as weekly candlesticks with a moving average, volume and a 12-month high, under a ticker symbol made from your login (or your own). Your repos and languages scroll past on the tape, the fundamentals sheet turns your stats into a terminal, and the closing bell signs off: *Past performance does not guarantee future commits.*
+- **Intaglio:** an engraved certificate in the manner of a banknote. A guilloché medallion around your monogram, its outer ring swelling in your busiest months, your name in hatched engraved capitals, a citation built from your numbers, a serial number, and a vermilion seal that stamps down. Your year follows as a sheet of twelve bond coupons.
+- **Departures:** a split-flap departures board. Every letter runs through the alphabet until it lands, your featured repos are the flights, and what you're working on now is boarding. The timetable shows your weekly rhythm, so visitors can see which day you ship most.
+- **Swiss:** an International Typographic Style poster. A twelve-column grid, flush-left bold type, one red, and your contributions set as an oversized figure, with the year along the foot as 52 weekly bars.
 
 ### Pacman · animated, retro arcade
 

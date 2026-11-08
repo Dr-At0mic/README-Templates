@@ -88,8 +88,9 @@ A template is a folder in `src/templates/` that turns a profile into a README pl
 | `fields` | no | Extra inputs for this template; values are stored in `profile.templateData[id]` |
 | `animated` | no | `true` shows the preview's **Replay** button |
 | `dedication` | no | `{ text, url }`, a small linked credit line on the template's gallery card |
+| `sponsorPage` | yes | The template's themed GitHub Sponsors page: labels, panel art, sponsor group names and defaults (see `renderSponsorsPage` in `src/lib/sponsors.js`) |
 
-Look at `src/templates/pulsar/` (static) and `src/templates/singularity/` (animated) for complete examples. Keeping the SVG generators in a separate `art.js` keeps `index.js` readable.
+Look at `src/templates/pulsar/` (static) and `src/templates/singularity/` (animated) for complete examples. Keeping the SVG generators in a separate `art.js` keeps `index.js` readable. `src/templates/common.js` has shared helpers (font stacks, the year's numbers, text fitting, the `<picture>` block and the project list) that the professional templates use.
 
 ### 2. Register it
 
