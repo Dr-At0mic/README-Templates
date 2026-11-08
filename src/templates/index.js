@@ -3,14 +3,19 @@
 // `animated` (shows the Replay control), `dedication` ({ text, url }, shown on its gallery card) and
 // `sponsorPage`, the template's themed GitHub Sponsors page (see renderSponsorsPage).
 import { adhd } from './adhd';
+import { annual } from './annual';
 import { breakdown } from './breakdown';
+import { departures } from './departures';
 import { dollhouse } from './dollhouse';
 import { fathom } from './fathom';
+import { intaglio } from './intaglio';
 import { pacman } from './pacman';
 import { pulsar } from './pulsar';
 import { shonen } from './shonen';
 import { singularity } from './singularity';
+import { swiss } from './swiss';
+import { ticker } from './ticker';
 
-export const TEMPLATES = [pulsar, shonen, singularity, dollhouse, adhd, fathom, breakdown, pacman];
+export const TEMPLATES = [pulsar, shonen, singularity, dollhouse, adhd, fathom, breakdown, pacman, annual, ticker, intaglio, departures, swiss];
 export const DEFAULT_TEMPLATE = pulsar;
 export const findTemplate = (id) => TEMPLATES.find((t) => t.id === id) || DEFAULT_TEMPLATE;
