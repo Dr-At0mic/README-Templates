@@ -68,7 +68,87 @@ jobs:
             echo 'NOTES_EOF'
           } >> "$GITHUB_OUTPUT"
 
-      - uses: tauri-apps/tauri-action@v0
+      # Packaging downloads its tools (WiX and NSIS on Windows, the AppImage helpers on Linux) from GitHub
+      # releases, and those downloads sometimes time out with HTTP 504 (v1.7.0 failed twice that way). The app
+      # is compiled and cached by the first attempt, so a retry mostly redoes the packaging: up to four
+      # attempts, 1, 4 and 10 minutes apart. Only the last one can fail the job.
+      - name: Build, sign and publish
+        id: attempt1
+        continue-on-error: true
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          VITE_VAULT_SECRET: ${{ secrets.VITE_VAULT_SECRET }}
+        with:
+          tagName: v__VERSION__
+          releaseName: README Templates v__VERSION__
+          # Plain text: the app shows these notes as-is in its update dialog.
+          releaseBody: ${{ steps.notes.outputs.body }}
+          releaseDraft: false
+          prerelease: false
+          # Signed updater artifacts + latest.json (local builds skip them and need no key).
+          args: --config src-tauri/tauri.release.conf.json
+
+      - name: Wait 1 minute before retrying
+        if: steps.attempt1.outcome == 'failure'
+        shell: bash
+        run: sleep 60
+
+      - name: Build, sign and publish (retry 1)
+        id: attempt2
+        if: steps.attempt1.outcome == 'failure'
+        continue-on-error: true
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          VITE_VAULT_SECRET: ${{ secrets.VITE_VAULT_SECRET }}
+        with:
+          tagName: v__VERSION__
+          releaseName: README Templates v__VERSION__
+          # Plain text: the app shows these notes as-is in its update dialog.
+          releaseBody: ${{ steps.notes.outputs.body }}
+          releaseDraft: false
+          prerelease: false
+          # Signed updater artifacts + latest.json (local builds skip them and need no key).
+          args: --config src-tauri/tauri.release.conf.json
+
+      - name: Wait 4 minutes before retrying
+        if: steps.attempt2.outcome == 'failure'
+        shell: bash
+        run: sleep 240
+
+      - name: Build, sign and publish (retry 2)
+        id: attempt3
+        if: steps.attempt2.outcome == 'failure'
+        continue-on-error: true
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          VITE_VAULT_SECRET: ${{ secrets.VITE_VAULT_SECRET }}
+        with:
+          tagName: v__VERSION__
+          releaseName: README Templates v__VERSION__
+          # Plain text: the app shows these notes as-is in its update dialog.
+          releaseBody: ${{ steps.notes.outputs.body }}
+          releaseDraft: false
+          prerelease: false
+          # Signed updater artifacts + latest.json (local builds skip them and need no key).
+          args: --config src-tauri/tauri.release.conf.json
+
+      - name: Wait 10 minutes before the last try
+        if: steps.attempt3.outcome == 'failure'
+        shell: bash
+        run: sleep 600
+
+      - name: Build, sign and publish (last try)
+        if: steps.attempt3.outcome == 'failure'
+        uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
